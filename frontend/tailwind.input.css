@@ -823,6 +823,14 @@
     @apply mt-2 text-sm text-muted;
   }
 
+  .application-panel__auth-link {
+    @apply mt-5 inline-flex min-h-11 items-center justify-center rounded bg-coral px-4 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-coral-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral-light;
+  }
+
+  .application-panel [hidden] {
+    display: none;
+  }
+
   .application-panel form {
     @apply mt-5 grid gap-4;
   }

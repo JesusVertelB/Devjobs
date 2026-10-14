@@ -1,0 +1,79 @@
+{
+  "HTML-002": {
+    "occurrences": 1,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T02:16:51.805Z",
+    "last_seen": "2026-10-14T02:16:51.805Z"
+  },
+  "CSS-001": {
+    "occurrences": 40,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T02:18:42.973Z",
+    "last_seen": "2026-10-14T04:46:07.165Z"
+  },
+  "REACT-003": {
+    "occurrences": 7,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T02:38:06.050Z",
+    "last_seen": "2026-10-14T03:11:01.421Z"
+  },
+  "ASYNC-001": {
+    "occurrences": 20,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.603Z",
+    "last_seen": "2026-10-14T20:22:12.451Z"
+  },
+  "PERF-001": {
+    "occurrences": 30,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.604Z",
+    "last_seen": "2026-10-14T20:22:12.463Z"
+  },
+  "CC-003": {
+    "occurrences": 10,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.614Z",
+    "last_seen": "2026-10-14T20:22:12.473Z"
+  },
+  "JS-001": {
+    "occurrences": 23,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.614Z",
+    "last_seen": "2026-10-14T20:22:12.539Z"
+  },
+  "CC-004": {
+    "occurrences": 48,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.615Z",
+    "last_seen": "2026-10-14T20:22:12.522Z"
+  },
+  "ARCH-003": {
+    "occurrences": 10,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.626Z",
+    "last_seen": "2026-10-14T20:22:12.505Z"
+  },
+  "CC-001": {
+    "occurrences": 59,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:08:02.649Z",
+    "last_seen": "2026-10-14T20:22:12.570Z"
+  },
+  "PERF-002": {
+    "occurrences": 2,
+    "confidence": 1,
+    "mastered_explicitly": false,
+    "first_seen": "2026-10-14T04:41:40.000Z",
+    "last_seen": "2026-10-14T04:45:17.434Z"
+  }
+}

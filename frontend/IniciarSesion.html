@@ -205,7 +205,12 @@
 
         sessionStorage.setItem('devjobs-token', result.token);
         sessionStorage.setItem('devjobs-user', JSON.stringify(result.user));
-        const destination = result.user.account_type === 'employer' ? 'PublicarEmpleo.html' : 'Empleos.html';
+        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+        const applicationDestination = result.user.account_type === 'candidate'
+          && /^DetalleEmpleo\.html\?id=db-\d+$/.test(returnTo || '');
+        const destination = applicationDestination
+          ? returnTo
+          : result.user.account_type === 'employer' ? 'PublicarEmpleo.html' : 'Empleos.html';
         const action = endpoint === 'register' ? 'Cuenta creada' : 'Sesión iniciada';
         authStatus.textContent = `${action} para ${result.user.full_name}. Te llevamos a DevJobs...`;
         authStatus.hidden = false;

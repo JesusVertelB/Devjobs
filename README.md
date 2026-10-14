@@ -67,6 +67,17 @@ Express sirve el frontend desde `frontend/` y expone la API bajo `/api`. El back
 | `DB_USER` | Usuario de MySQL | `root` |
 | `DB_PASSWORD` | Contraseña de MySQL; puede quedar vacía si el usuario no tiene contraseña | No se comparte |
 | `JWT_SECRET` | Secreto aleatorio para firmar tokens; mínimo 32 caracteres | No se comparte |
+| `GMAIL_USER` | Cuenta Gmail que enviará las notificaciones de postulaciones | `tu-cuenta@gmail.com` |
+| `GMAIL_APP_PASSWORD` | Contraseña de aplicación de esa cuenta Gmail | No se comparte |
+
+Para enviar las postulaciones al correo de contacto que la empresa indicó en su vacante:
+
+1. Activa la verificación en dos pasos de la cuenta Gmail que enviará los mensajes.
+2. Crea una contraseña de aplicación desde la configuración de seguridad de esa cuenta.
+3. En `.env`, define `GMAIL_USER` con esa cuenta y `GMAIL_APP_PASSWORD` con una contraseña de aplicación generada por esa misma cuenta. Deben pertenecer al mismo Gmail. No uses la contraseña normal de Gmail ni compartas o subas `.env`.
+4. Reinicia el servidor. El destinatario será el correo de contacto guardado en la vacante y podrá responder directamente al correo del candidato.
+
+Si Gmail no está configurado o rechaza el envío, la postulación se guarda igualmente y la aplicación indica que no se pudo enviar la notificación.
 
 ## Ejecución
 
@@ -96,10 +107,10 @@ npm run build:css
 | `POST` | `/api/auth/register` | Registra una cuenta. |
 | `POST` | `/api/auth/login` | Inicia sesión y devuelve un token. |
 | `GET` | `/api/auth/me` | Devuelve la cuenta asociada al token. |
-| `GET` | `/api/jobs` | Lista y filtra vacantes publicadas. |
+| `GET` | `/api/jobs` | Lista y filtra vacantes publicadas; está disponible para visitantes sin iniciar sesión. |
 | `GET` | `/api/jobs/:id` | Consulta una vacante. |
 | `POST` | `/api/jobs` | Publica una vacante como empleador autenticado. |
-| `POST` | `/api/jobs/:id/applications` | Envía una postulación. |
+| `POST` | `/api/jobs/:id/applications` | Envía una postulación de una cuenta de candidato autenticada. |
 
 La ruta de salud debe responder con `status: ok` y `database: devjobs` cuando MySQL está disponible.
 

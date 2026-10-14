@@ -6,6 +6,7 @@ const express = require('express');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2/promise');
+const nodemailer = require('nodemailer');
 
 const requiredVariables = ['DB_HOST', 'DB_NAME', 'DB_USER', 'JWT_SECRET'];
 const missingVariables = requiredVariables.filter((name) => !process.env[name]);
@@ -33,6 +34,7 @@ const pool = mysql.createPool({
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
+let gmailTransport;
 const workModes = new Set(['remote', 'hybrid', 'onsite']);
 const employmentTypes = new Set(['full_time', 'part_time', 'contract']);
 const accountTypes = new Set(['candidate', 'employer']);
@@ -86,6 +88,108 @@ function asTextList(value) {
   return value.map((item) => String(item).trim()).filter(Boolean);
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+async function sendApplicationEmail({ recipient, jobTitle, company, applicant, portfolioUrl, coverLetter }) {
+  const gmailUser = process.env.GMAIL_USER?.trim();
+  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, '');
+  if (!gmailUser || !gmailAppPassword) {
+    throw new Error('Configura GMAIL_USER y GMAIL_APP_PASSWORD en .env para habilitar las notificaciones.');
+  }
+  if (gmailAppPassword.length !== 16) {
+    const error = new Error('GMAIL_APP_PASSWORD debe ser una contraseña de aplicación de Google de 16 caracteres, sin espacios.');
+    error.code = 'GMAIL_APP_PASSWORD_INVALID_LENGTH';
+    throw error;
+  }
+
+  gmailTransport ||= nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: gmailUser, pass: gmailAppPassword }
+  });
+
+  const safeJobTitle = escapeHtml(jobTitle);
+  const safeCompany = escapeHtml(company);
+  const safeApplicantName = escapeHtml(applicant.fullName);
+  const safeApplicantEmail = escapeHtml(applicant.email);
+  const safePortfolioUrl = portfolioUrl ? escapeHtml(portfolioUrl) : '';
+  const safeCoverLetter = escapeHtml(coverLetter || 'La persona candidata no dejó un mensaje.');
+  const message = [
+    `Nueva postulación para ${jobTitle}`,
+    `Empresa: ${company}`,
+    '',
+    `Candidato/a: ${applicant.fullName}`,
+    `Correo: ${applicant.email}`,
+    `Portafolio: ${portfolioUrl || 'No proporcionado'}`,
+    '',
+    'Mensaje:',
+    coverLetter || 'La persona candidata no dejó un mensaje.'
+  ].join('\n');
+  const html = `
+    <!doctype html>
+    <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Nueva postulación en DevJobs</title>
+      </head>
+      <body style="margin:0;padding:32px 12px;background-color:#f1f3ed;font-family:Arial,Helvetica,sans-serif;color:#243129;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;margin:0 auto;border-collapse:collapse;">
+          <tr>
+            <td style="padding:0 0 18px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                <tr>
+                  <td style="width:8px;background-color:#bd5638;border-radius:4px;"></td>
+                  <td style="padding:2px 0 2px 12px;font-size:21px;font-weight:700;letter-spacing:-0.5px;color:#17221c;">DevJobs</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px;background-color:#ffffff;border:1px solid #dce3dc;border-radius:12px;">
+              <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#a84930;">Nueva postulación</p>
+              <h1 style="margin:0;font-size:25px;line-height:1.25;color:#17221c;">${safeJobTitle}</h1>
+              <p style="margin:8px 0 24px;font-size:15px;line-height:1.5;color:#647168;">${safeCompany}</p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background-color:#f6f8f5;border:1px solid #e4e9e3;border-radius:8px;">
+                <tr>
+                  <td style="padding:16px 18px 6px;font-size:11px;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;color:#748078;">Candidatura de</td>
+                </tr>
+                <tr>
+                  <td style="padding:0 18px 16px;font-size:17px;font-weight:700;color:#243129;">${safeApplicantName}<br>
+                    <a href="mailto:${safeApplicantEmail}" style="font-size:14px;font-weight:400;color:#a84930;text-decoration:none;">${safeApplicantEmail}</a>
+                  </td>
+                </tr>
+              </table>
+              <h2 style="margin:25px 0 10px;font-size:15px;color:#243129;">Mensaje de la persona candidata</h2>
+              <div style="padding:16px 18px;border-left:3px solid #bd5638;border-radius:4px;background-color:#f8f6f3;font-size:14px;line-height:1.7;color:#38453c;white-space:pre-wrap;overflow-wrap:anywhere;">${safeCoverLetter}</div>
+              ${portfolioUrl ? `<p style="margin:20px 0 0;font-size:14px;"><a href="${safePortfolioUrl}" style="font-weight:700;color:#a84930;text-decoration:underline;">Ver portafolio o perfil profesional</a></p>` : ''}
+              <p style="margin:26px 0 0;font-size:13px;line-height:1.6;color:#748078;">Puedes responder directamente a este correo para contactar a ${safeApplicantName}.</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:18px 8px 0;text-align:center;font-size:12px;line-height:1.6;color:#879188;">Notificación enviada por DevJobs<br>Conectamos talento con nuevas oportunidades.</td>
+          </tr>
+        </table>
+      </body>
+    </html>`;
+
+  await gmailTransport.sendMail({
+    from: { name: 'DevJobs', address: gmailUser },
+    to: recipient,
+    replyTo: applicant.email,
+    subject: `Nueva postulación: ${jobTitle}`,
+    text: message,
+    html
+  });
+}
+
 function sendApiError(res, error) {
   if (error.code === 'ER_DUP_ENTRY') {
     return res.status(409).json({ error: 'Ya existe un registro con esos datos.' });
@@ -137,6 +241,9 @@ app.post('/api/auth/register', async (req, res) => {
     const user = { id: result.insertId, full_name: fullName, email, account_type: accountType };
     res.status(201).json({ token: createToken(user), user });
   } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ error: 'Ese correo ya tiene una cuenta. Inicia sesión o usa otro correo.' });
+    }
     sendApiError(res, error);
   }
 });
@@ -354,37 +461,99 @@ app.post('/api/jobs', requireAuth, requireEmployer, async (req, res) => {
   }
 });
 
-app.post('/api/jobs/:id/applications', async (req, res) => {
+app.post('/api/jobs/:id/applications', requireAuth, async (req, res) => {
   if (!/^\d+$/.test(req.params.id)) return res.status(400).json({ error: 'El identificador de la vacante no es válido.' });
-  const applicantName = String(req.body.name || '').trim();
-  const applicantEmail = String(req.body.email || '').trim().toLowerCase();
+  if (req.user.accountType !== 'candidate') {
+    return res.status(403).json({ error: 'Inicia sesión con una cuenta de candidato para postularte.' });
+  }
+
   const portfolioUrl = String(req.body.portfolioUrl || '').trim() || null;
   const coverLetter = String(req.body.coverLetter || '').trim() || null;
-  if (applicantName.length < 2 || applicantName.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(applicantEmail)) {
-    return res.status(400).json({ error: 'Escribe un nombre y correo válidos.' });
-  }
   if (portfolioUrl && !/^https?:\/\//i.test(portfolioUrl)) return res.status(400).json({ error: 'El portafolio debe empezar con http:// o https://.' });
 
-  let candidateUserId = null;
   try {
-    const token = readToken(req);
-    if (token) {
-      if (token.accountType !== 'candidate') return res.status(403).json({ error: 'Inicia sesión con una cuenta de candidato para postularte.' });
-      candidateUserId = token.sub;
-    }
-  } catch (error) {
-    return sendApiError(res, error);
-  }
-
-  try {
-    const [result] = await pool.execute(
-      `INSERT INTO applications (job_id, candidate_user_id, applicant_name, applicant_email, portfolio_url, cover_letter)
-       SELECT j.id, ?, ?, ?, ?, ? FROM jobs j WHERE j.id = ? AND j.status = 'published'`,
-      [candidateUserId, applicantName, applicantEmail, portfolioUrl, coverLetter, req.params.id]
+    const [users] = await pool.execute(
+      'SELECT id, full_name, email FROM users WHERE id = ? AND account_type = ? AND is_active = TRUE LIMIT 1',
+      [req.user.sub, 'candidate']
     );
-    if (!result.affectedRows) return res.status(404).json({ error: 'No encontramos esa vacante publicada.' });
-    res.status(201).json({ id: result.insertId, status: 'submitted' });
+    const candidate = users[0];
+    if (!candidate) return res.status(401).json({ error: 'La cuenta de candidato ya no está activa.' });
+
+    const [jobs] = await pool.execute(
+      `SELECT j.id, j.title, j.contact_email, c.name AS company
+       FROM jobs j JOIN companies c ON c.id = j.company_id
+       WHERE j.id = ? AND j.status = 'published' LIMIT 1`,
+      [req.params.id]
+    );
+    const job = jobs[0];
+    if (!job) return res.status(404).json({ error: 'No encontramos esa vacante publicada.' });
+
+    let applicationId;
+    let responseStatus = 201;
+    try {
+      const [result] = await pool.execute(
+        `INSERT INTO applications (job_id, candidate_user_id, applicant_name, applicant_email, portfolio_url, cover_letter)
+         SELECT j.id, ?, ?, ?, ?, ? FROM jobs j WHERE j.id = ? AND j.status = 'published'`,
+        [candidate.id, candidate.full_name, candidate.email, portfolioUrl, coverLetter, req.params.id]
+      );
+      if (!result.affectedRows) return res.status(404).json({ error: 'No encontramos esa vacante publicada.' });
+      applicationId = result.insertId;
+    } catch (error) {
+      const duplicateApplication = error.code === 'ER_DUP_ENTRY'
+        && String(error.message || error.sqlMessage || '').includes('uq_applications_job_email');
+      if (!duplicateApplication) throw error;
+
+      const [existingApplications] = await pool.execute(
+        'SELECT id FROM applications WHERE job_id = ? AND applicant_email = ? LIMIT 1',
+        [req.params.id, candidate.email]
+      );
+      if (!existingApplications[0]) throw error;
+
+      applicationId = existingApplications[0].id;
+      await pool.execute(
+        `UPDATE applications
+         SET candidate_user_id = ?, applicant_name = ?, portfolio_url = ?, cover_letter = ?
+         WHERE id = ?`,
+        [candidate.id, candidate.full_name, portfolioUrl, coverLetter, applicationId]
+      );
+      responseStatus = 200;
+    }
+
+    let emailSent = false;
+    let emailError;
+    try {
+      await sendApplicationEmail({
+        recipient: job.contact_email,
+        jobTitle: job.title,
+        company: job.company,
+        applicant: { fullName: candidate.full_name, email: candidate.email },
+        portfolioUrl,
+        coverLetter
+      });
+      emailSent = true;
+    } catch (error) {
+      if (error.code === 'GMAIL_APP_PASSWORD_INVALID_LENGTH') {
+        emailError = error.message;
+      } else if (error.code === 'EAUTH' || error.responseCode === 535) {
+        emailError = 'La postulación se guardó, pero Google rechazó el acceso a Gmail. GMAIL_USER y la contraseña de aplicación deben pertenecer a la misma cuenta; genera una contraseña nueva y reinicia el servidor.';
+      } else {
+        emailError = 'La postulación se guardó, pero Gmail no pudo enviar el correo a la empresa. Revisa la conexión SMTP y la configuración de seguridad de Google.';
+      }
+      console.error('No se pudo enviar el correo de una postulación:', error);
+    }
+
+    res.status(responseStatus).json({
+      id: applicationId,
+      status: 'submitted',
+      emailSent,
+      ...(emailError ? { emailError } : {})
+    });
   } catch (error) {
+    const duplicateKey = error.code === 'ER_DUP_ENTRY'
+      && String(error.message || error.sqlMessage || '').includes('uq_applications_job_email');
+    if (duplicateKey) {
+      return res.status(409).json({ error: 'Ya enviaste tu postulación a esta vacante.' });
+    }
     sendApiError(res, error);
   }
 });
@@ -401,4 +570,4 @@ if (require.main === module) {
   app.listen(port, () => console.log(`DevJobs disponible en http://localhost:${port}`));
 }
 
-module.exports = { app, pool };
+module.exports = { app, pool, sendApplicationEmail };

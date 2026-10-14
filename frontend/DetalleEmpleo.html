@@ -77,20 +77,15 @@
         <aside class="application-panel" aria-labelledby="application-title">
           <p class="application-panel__eyebrow">Siguiente paso</p>
           <h2 id="application-title">Postúlate a esta vacante</h2>
-          <p class="application-panel__copy">Comparte tus datos y un enlace a tu trabajo.</p>
+          <p class="application-panel__copy">Inicia sesión o crea una cuenta de candidato para enviar tu postulación.</p>
 
-          <form id="application-form">
+          <a class="application-panel__auth-link" id="application-auth-link" href="IniciarSesion.html">Iniciar sesión o crear cuenta</a>
+          <p class="application-panel__notice" id="application-access-note" hidden></p>
+
+          <form id="application-form" hidden>
             <input id="application-job" name="job" type="hidden" value="frontend">
 
-            <label for="applicant-name">
-              <span>Nombre completo</span>
-              <input id="applicant-name" name="name" type="text" autocomplete="name" required>
-            </label>
-
-            <label for="applicant-email">
-              <span>Correo electrónico</span>
-              <input id="applicant-email" name="email" type="email" autocomplete="email" required>
-            </label>
+            <p class="application-panel__notice" id="application-identity"></p>
 
             <label for="applicant-link">
               <span>Portafolio o perfil profesional <small>Opcional</small></span>
@@ -102,10 +97,9 @@
               <textarea id="applicant-note" name="note" rows="4" placeholder="Cuéntale al equipo por qué te interesa el puesto."></textarea>
             </label>
 
-            <button type="submit">Preparar postulación</button>
-            <p class="application-panel__notice">Demo: tus datos no se envían ni se guardan en un servidor.</p>
-            <p id="application-status" class="application-status" role="status" hidden></p>
+            <button type="submit">Enviar postulación</button>
           </form>
+          <p id="application-status" class="application-status" role="status" hidden></p>
         </aside>
       </div>
     </div>
@@ -269,44 +263,99 @@
       return { job, databaseId: null };
     }
 
-    const loadedJobPromise = loadJob();
-    document.querySelector('#application-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const loadedJob = await loadedJobPromise;
-      if (!event.currentTarget.reportValidity() || !loadedJob) return;
-      const status = document.querySelector('#application-status');
-      const formData = new FormData(event.currentTarget);
+    const applicationForm = document.querySelector('#application-form');
+    const applicationAuthLink = document.querySelector('#application-auth-link');
+    const applicationAccessNote = document.querySelector('#application-access-note');
+    const applicationIdentity = document.querySelector('#application-identity');
+    const applicationStatus = document.querySelector('#application-status');
+    let candidateIdentity = '';
 
+    async function prepareApplication(loadedJob) {
+      if (!loadedJob) {
+        applicationAuthLink.hidden = true;
+        return;
+      }
       if (!loadedJob.databaseId) {
-        status.textContent = `Tu postulación para ${loadedJob.job.title} está lista en esta demo. No se enviaron tus datos.`;
-        status.hidden = false;
+        applicationAuthLink.hidden = true;
+        applicationAccessNote.textContent = 'Esta vacante de ejemplo no acepta postulaciones desde la plataforma.';
+        applicationAccessNote.hidden = false;
         return;
       }
 
-      const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+      const returnTo = `DetalleEmpleo.html?id=db-${loadedJob.databaseId}`;
+      const signInUrl = new URL('IniciarSesion.html', window.location.href);
+      signInUrl.searchParams.set('returnTo', returnTo);
+      applicationAuthLink.href = signInUrl.href;
+
+      const token = sessionStorage.getItem('devjobs-token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('/api/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.status === 401) {
+          sessionStorage.removeItem('devjobs-token');
+          sessionStorage.removeItem('devjobs-user');
+          return;
+        }
+        if (!response.ok) throw new Error('No pudimos verificar tu sesión.');
+
+        const { user } = await response.json();
+        if (user?.account_type !== 'candidate') {
+          applicationAccessNote.textContent = 'Solo las cuentas de candidato pueden postularse. Inicia sesión con una cuenta de candidato para continuar.';
+          applicationAccessNote.hidden = false;
+          return;
+        }
+
+        applicationAuthLink.hidden = true;
+        candidateIdentity = `${user.full_name} (${user.email})`;
+        applicationIdentity.textContent = `Tu postulación se enviará como ${candidateIdentity}.`;
+        applicationForm.hidden = false;
+      } catch (error) {
+        applicationStatus.textContent = error.message || 'No pudimos verificar tu sesión.';
+        applicationStatus.hidden = false;
+      }
+    }
+
+    const loadedJobPromise = loadJob();
+    loadedJobPromise.then(prepareApplication);
+    document.querySelector('#application-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const loadedJob = await loadedJobPromise;
+      const form = event.currentTarget;
+      if (!form.reportValidity() || !loadedJob?.databaseId) return;
+      const formData = new FormData(form);
+      const submitButton = form.querySelector('button[type="submit"]');
       submitButton.disabled = true;
+      applicationStatus.hidden = true;
       try {
         const headers = { 'Content-Type': 'application/json' };
         const token = sessionStorage.getItem('devjobs-token');
-        if (token) headers.Authorization = `Bearer ${token}`;
+        if (!token) {
+          window.location.assign(applicationAuthLink.href);
+          return;
+        }
+        headers.Authorization = `Bearer ${token}`;
         const response = await fetch(`/api/jobs/${loadedJob.databaseId}/applications`, {
           method: 'POST',
           headers,
           body: JSON.stringify({
-            name: formData.get('name'),
-            email: formData.get('email'),
             portfolioUrl: formData.get('link'),
             coverLetter: formData.get('note')
           })
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'No pudimos guardar la postulación.');
-        status.textContent = 'Tu postulación quedó guardada en DevJobs.';
-        status.hidden = false;
-        event.currentTarget.reset();
+        applicationStatus.textContent = result.emailSent
+          ? 'Tu postulación se guardó y enviamos un correo a la empresa.'
+          : result.emailError || 'Tu postulación quedó guardada, pero no se pudo confirmar el envío del correo a la empresa.';
+        applicationStatus.hidden = false;
+        form.reset();
+        applicationIdentity.textContent = `Tu postulación se enviará como ${candidateIdentity}.`;
       } catch (error) {
-        status.textContent = error.message || 'No pudimos conectar con el servidor.';
-        status.hidden = false;
+        applicationStatus.textContent = error.message || 'No pudimos conectar con el servidor.';
+        applicationStatus.hidden = false;
       } finally {
         submitButton.disabled = false;
       }
