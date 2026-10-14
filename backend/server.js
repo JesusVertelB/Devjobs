@@ -1,6 +1,6 @@
-require('dotenv').config();
-
 const path = require('node:path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const helmet = require('helmet');
@@ -33,19 +33,6 @@ const pool = mysql.createPool({
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
-const publicFiles = new Set([
-  'index.html',
-  'Empleos.html',
-  'Empresas.html',
-  'Salarios.html',
-  'DetalleEmpleo.html',
-  'PublicarEmpleo.html',
-  'IniciarSesion.html',
-  'site-header.js',
-  'style.css',
-  'tailwind.css',
-  'background.webp'
-]);
 const workModes = new Set(['remote', 'hybrid', 'onsite']);
 const employmentTypes = new Set(['full_time', 'part_time', 'contract']);
 const accountTypes = new Set(['candidate', 'employer']);
@@ -403,11 +390,7 @@ app.post('/api/jobs/:id/applications', async (req, res) => {
 });
 
 app.get('/api/*', (_req, res) => res.status(404).json({ error: 'No encontramos ese endpoint.' }));
-app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/:asset', (req, res) => {
-  if (!publicFiles.has(req.params.asset)) return res.status(404).send('No encontramos esa página.');
-  res.sendFile(path.join(__dirname, req.params.asset));
-});
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 app.use((error, _req, res, _next) => {
   if (error instanceof SyntaxError && 'body' in error) return res.status(400).json({ error: 'El cuerpo JSON no es válido.' });

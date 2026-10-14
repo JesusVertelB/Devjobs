@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "build:css": "tailwindcss -i ./tailwind.input.css -o ./tailwind.css --minify",
-    "watch:css": "tailwindcss -i ./tailwind.input.css -o ./tailwind.css --watch"
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "build:css": "tailwindcss -i ./frontend/tailwind.input.css -o ./frontend/tailwind.css --config ./frontend/tailwind.config.js --minify",
+    "watch:css": "tailwindcss -i ./frontend/tailwind.input.css -o ./frontend/tailwind.css --config ./frontend/tailwind.config.js --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"
