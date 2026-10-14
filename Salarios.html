@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Explora rangos salariales de referencia para puestos de tecnología en DevJobs.">
+	<title>Salarios | DevJobs</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+	<header class="site-header" id="inicio">
+		<h2>DevJobs</h2>
+
+		<nav aria-label="Navegación principal">
+			<a href="index.html">Inicio</a>
+			<a href="Empleos.html">Empleos</a>
+			<a href="Empresas.html">Empresas</a>
+			<a href="Salarios.html" aria-current="page">Salarios</a>
+		</nav>
+
+		<div>
+			<a href="PublicarEmpleo.html">Publicar un empleo</a>
+			<a href="IniciarSesion.html">Iniciar sesión</a>
+		</div>
+	</header>
+
+	<main class="salary-page">
+		<section class="salary-hero" aria-labelledby="salary-title">
+			<div class="salary-container">
+				<p class="salary-eyebrow">Tu trabajo también tiene valor</p>
+				<h1 id="salary-title">Pon en perspectiva tu talento.</h1>
+				<p class="salary-hero__copy">Explora rangos de referencia y compara especialidades tecnológicas.</p>
+			</div>
+		</section>
+
+		<section class="salary-content salary-container" aria-labelledby="estimator-title">
+			<div class="salary-panel">
+				<div class="salary-panel__heading">
+					<div>
+						<p class="salary-eyebrow">Explorador salarial</p>
+						<h2 id="estimator-title">Calcula un rango estimado</h2>
+					</div>
+					<span class="salary-unit">Sueldo bruto mensual · MXN</span>
+				</div>
+
+				<form class="salary-form" id="salary-form">
+					<label for="salary-role">
+						<span>Puesto</span>
+						<select id="salary-role" name="role">
+							<option value="frontend">Frontend Developer</option>
+							<option value="backend">Backend Developer</option>
+							<option value="data">Data Analyst</option>
+							<option value="design">Product Designer</option>
+							<option value="devops">DevOps Engineer</option>
+						</select>
+					</label>
+
+					<label for="salary-level">
+						<span>Experiencia</span>
+						<select id="salary-level" name="level">
+							<option value="junior">Junior · 0–2 años</option>
+							<option value="mid" selected>Intermedio · 3–5 años</option>
+							<option value="senior">Senior · 6+ años</option>
+						</select>
+					</label>
+
+					<label for="salary-location">
+						<span>Ubicación</span>
+						<select id="salary-location" name="location">
+							<option value="remote">Remoto nacional</option>
+							<option value="cdmx">Ciudad de México</option>
+							<option value="guadalajara">Guadalajara</option>
+							<option value="monterrey">Monterrey</option>
+						</select>
+					</label>
+
+					<button type="submit">Calcular salario</button>
+				</form>
+
+				<div class="salary-result" aria-live="polite">
+					<div class="salary-result__heading">
+						<div>
+							<p class="salary-result__label">Rango mensual estimado</p>
+							<h3 id="salary-role-title">Frontend Developer</h3>
+						</div>
+						<span id="salary-level-label" class="salary-result__badge">Intermedio</span>
+					</div>
+
+					<div class="salary-stats">
+						<div class="salary-stat">
+							<span>Mínimo estimado</span>
+							<strong id="salary-min">$48,000</strong>
+						</div>
+						<div class="salary-stat salary-stat--median">
+							<span>Mediana estimada</span>
+							<strong id="salary-median">$58,000</strong>
+						</div>
+						<div class="salary-stat">
+							<span>Máximo estimado</span>
+							<strong id="salary-max">$71,000</strong>
+						</div>
+					</div>
+
+					<div class="salary-range" role="meter" aria-label="Mediana salarial estimada" aria-valuemin="0" aria-valuemax="150000" aria-valuenow="58000">
+						<div class="salary-range__fill" id="salary-range-fill"></div>
+						<span class="salary-range__marker" id="salary-range-marker"></span>
+					</div>
+					<div class="salary-range__labels"><span>$0</span><span>$150,000+</span></div>
+					<p class="salary-result__summary" id="salary-summary">Para un perfil intermedio de Frontend Developer en remoto nacional.</p>
+				</div>
+			</div>
+
+			<section class="salary-comparison" aria-labelledby="comparison-title">
+				<div class="salary-comparison__heading">
+					<div>
+						<p class="salary-eyebrow">Panorama por especialidad</p>
+						<h2 id="comparison-title">Compara otros puestos</h2>
+					</div>
+					<p>Medianas estimadas con los mismos filtros</p>
+				</div>
+
+				<div class="salary-table" role="table" aria-label="Comparación de medianas salariales">
+					<div class="salary-table__header" role="row">
+						<span role="columnheader">Especialidad</span>
+						<span role="columnheader">Mediana mensual</span>
+						<span role="columnheader">Comparación</span>
+					</div>
+					<div id="salary-rows">
+						<div class="salary-row" role="row" data-role="frontend">
+							<span role="cell">Frontend Developer</span>
+							<strong role="cell">$58,000</strong>
+							<span class="salary-row__bar" role="cell"><span></span></span>
+						</div>
+						<div class="salary-row" role="row" data-role="backend">
+							<span role="cell">Backend Developer</span>
+							<strong role="cell">$61,000</strong>
+							<span class="salary-row__bar" role="cell"><span></span></span>
+						</div>
+						<div class="salary-row" role="row" data-role="data">
+							<span role="cell">Data Analyst</span>
+							<strong role="cell">$57,000</strong>
+							<span class="salary-row__bar" role="cell"><span></span></span>
+						</div>
+						<div class="salary-row" role="row" data-role="design">
+							<span role="cell">Product Designer</span>
+							<strong role="cell">$49,000</strong>
+							<span class="salary-row__bar" role="cell"><span></span></span>
+						</div>
+						<div class="salary-row" role="row" data-role="devops">
+							<span role="cell">DevOps Engineer</span>
+							<strong role="cell">$66,000</strong>
+							<span class="salary-row__bar" role="cell"><span></span></span>
+						</div>
+					</div>
+				</div>
+
+				<p class="salary-disclaimer">Cifras ilustrativas para mostrar la herramienta; no representan datos salariales verificados ni una oferta de empleo.</p>
+			</section>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="site-footer__main">
+			<div class="site-footer__brand">
+				<a href="index.html#inicio">DevJobs</a>
+				<p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+			</div>
+
+			<div class="site-footer__links">
+				<h2>Accesos rápidos</h2>
+				<nav aria-label="Accesos rápidos">
+					<a href="index.html#inicio">Inicio</a>
+					<a href="Empleos.html">Empleos</a>
+					<a href="Empresas.html">Empresas</a>
+					<a href="#salary-title">Salarios</a>
+				</nav>
+			</div>
+		</div>
+
+		<div class="site-footer__bottom">
+			<small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+			<a href="#inicio">Volver al inicio</a>
+		</div>
+	</footer>
+
+	<script>
+		const salaryRoles = [
+			{ id: 'frontend', title: 'Frontend Developer', salaries: [38000, 58000, 85000] },
+			{ id: 'backend', title: 'Backend Developer', salaries: [42000, 61000, 92000] },
+			{ id: 'data', title: 'Data Analyst', salaries: [36000, 57000, 84000] },
+			{ id: 'design', title: 'Product Designer', salaries: [33000, 49000, 76000] },
+			{ id: 'devops', title: 'DevOps Engineer', salaries: [45000, 66000, 99000] }
+		];
+		const experienceLevels = {
+			junior: { index: 0, label: 'Junior' },
+			mid: { index: 1, label: 'Intermedio' },
+			senior: { index: 2, label: 'Senior' }
+		};
+		const locationFactors = {
+			remote: { label: 'remoto nacional', factor: 1 },
+			cdmx: { label: 'Ciudad de México', factor: 1.08 },
+			guadalajara: { label: 'Guadalajara', factor: 0.97 },
+			monterrey: { label: 'Monterrey', factor: 1.03 }
+		};
+		const salaryForm = document.querySelector('#salary-form');
+		const roleSelect = document.querySelector('#salary-role');
+		const levelSelect = document.querySelector('#salary-level');
+		const locationSelect = document.querySelector('#salary-location');
+		const currency = new Intl.NumberFormat('es-MX', {
+			style: 'currency',
+			currency: 'MXN',
+			maximumFractionDigits: 0
+		});
+
+		function estimateSalary(role, level, location) {
+			const base = role.salaries[level.index] * location.factor;
+			const roundToThousand = (amount) => Math.round(amount / 1000) * 1000;
+			return {
+				min: roundToThousand(base * 0.82),
+				median: roundToThousand(base),
+				max: roundToThousand(base * 1.22)
+			};
+		}
+
+		function updateSalary() {
+			const level = experienceLevels[levelSelect.value];
+			const location = locationFactors[locationSelect.value];
+			const selectedRole = salaryRoles.find((role) => role.id === roleSelect.value);
+			const selectedEstimate = estimateSalary(selectedRole, level, location);
+			const fillPercent = Math.min((selectedEstimate.median / 150000) * 100, 100);
+
+			document.querySelector('#salary-role-title').textContent = selectedRole.title;
+			document.querySelector('#salary-level-label').textContent = level.label;
+			document.querySelector('#salary-min').textContent = currency.format(selectedEstimate.min);
+			document.querySelector('#salary-median').textContent = currency.format(selectedEstimate.median);
+			document.querySelector('#salary-max').textContent = currency.format(selectedEstimate.max);
+			document.querySelector('#salary-summary').textContent = `Para un perfil ${level.label.toLocaleLowerCase('es')} de ${selectedRole.title} en ${location.label}.`;
+
+			const range = document.querySelector('.salary-range');
+			range.setAttribute('aria-valuenow', String(selectedEstimate.median));
+			range.setAttribute('aria-valuetext', `${currency.format(selectedEstimate.median)} al mes`);
+			document.querySelector('#salary-range-fill').style.width = `${fillPercent}%`;
+			document.querySelector('#salary-range-marker').style.left = `${fillPercent}%`;
+
+			salaryRoles.forEach((role) => {
+				const estimate = estimateSalary(role, level, location);
+				const row = document.querySelector(`[data-role="${role.id}"]`);
+				row.querySelector('[role="cell"] + [role="cell"]').textContent = currency.format(estimate.median);
+				row.querySelector('.salary-row__bar > span').style.width = `${Math.min((estimate.median / 120000) * 100, 100)}%`;
+				row.classList.toggle('is-selected', role.id === selectedRole.id);
+			});
+		}
+
+		salaryForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			updateSalary();
+		});
+		salaryForm.addEventListener('change', updateSalary);
+		updateSalary();
+	</script>
+	<script src="site-header.js"></script>
+</body>
+
+</html>

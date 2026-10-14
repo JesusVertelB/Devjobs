@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Accede o crea una cuenta en DevJobs para continuar tu experiencia profesional.">
+  <title>Iniciar sesión | DevJobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+  <header class="site-header" id="inicio">
+    <h2>DevJobs</h2>
+    <nav aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="Empleos.html">Empleos</a>
+      <a href="Empresas.html">Empresas</a>
+      <a href="Salarios.html">Salarios</a>
+    </nav>
+    <div>
+      <a href="PublicarEmpleo.html">Publicar un empleo</a>
+      <a href="IniciarSesion.html" aria-current="page">Iniciar sesión</a>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-shell">
+      <section class="auth-intro" aria-labelledby="auth-title">
+        <p class="auth-eyebrow">Tu siguiente capítulo</p>
+        <h1 id="auth-title">Tu talento merece buenas oportunidades.</h1>
+        <p>Encuentra equipos que valoran lo que sabes hacer y lo que todavía quieres aprender.</p>
+        <ul>
+          <li>Explora oportunidades para tu perfil.</li>
+          <li>Conoce empresas y equipos de tecnología.</li>
+          <li>Ten tus próximos pasos profesionales en un solo lugar.</li>
+        </ul>
+      </section>
+
+      <section class="auth-card" aria-label="Acceso a DevJobs">
+        <div class="auth-tabs" role="tablist" aria-label="Tipo de acceso">
+          <button id="sign-in-tab" type="button" role="tab" aria-selected="true" aria-controls="sign-in-panel">Iniciar sesión</button>
+          <button id="sign-up-tab" type="button" role="tab" aria-selected="false" aria-controls="sign-up-panel" tabindex="-1">Crear cuenta</button>
+        </div>
+
+        <section id="sign-in-panel" role="tabpanel" aria-labelledby="sign-in-tab">
+          <div class="auth-panel-heading">
+            <p class="auth-eyebrow">Qué bueno verte</p>
+            <h2>Entra a tu cuenta</h2>
+            <p>Usa tu correo y contraseña para continuar.</p>
+          </div>
+
+          <form class="auth-form" id="sign-in-form">
+            <label for="sign-in-email">
+              <span>Correo electrónico</span>
+              <input id="sign-in-email" name="email" type="email" autocomplete="email" placeholder="nombre@correo.com" required>
+            </label>
+
+            <label for="sign-in-password">
+              <span>Contraseña</span>
+              <span class="auth-password-field">
+                <input id="sign-in-password" name="password" type="password" autocomplete="current-password" required>
+                <button class="auth-password-toggle" type="button" data-password-toggle="sign-in-password" aria-label="Mostrar contraseña">Mostrar</button>
+              </span>
+            </label>
+
+            <button class="auth-submit" type="submit">Continuar</button>
+          </form>
+        </section>
+
+        <section id="sign-up-panel" role="tabpanel" aria-labelledby="sign-up-tab" hidden>
+          <div class="auth-panel-heading">
+            <p class="auth-eyebrow">Empieza por aquí</p>
+            <h2>Crea tu cuenta</h2>
+            <p>Cuéntanos quién eres para preparar tu espacio.</p>
+          </div>
+
+          <form class="auth-form" id="sign-up-form">
+            <label for="sign-up-name">
+              <span>Nombre completo</span>
+              <input id="sign-up-name" name="name" type="text" autocomplete="name" required>
+            </label>
+
+            <label for="account-type">
+              <span>Quiero usar DevJobs como</span>
+              <select id="account-type" name="accountType" required>
+                <option value="candidate">Candidato/a</option>
+                <option value="employer">Empresa</option>
+              </select>
+            </label>
+
+            <label for="sign-up-email">
+              <span>Correo electrónico</span>
+              <input id="sign-up-email" name="email" type="email" autocomplete="email" placeholder="nombre@correo.com" required>
+            </label>
+
+            <label for="sign-up-password">
+              <span>Contraseña <small>Mínimo 8 caracteres</small></span>
+              <span class="auth-password-field">
+                <input id="sign-up-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                <button class="auth-password-toggle" type="button" data-password-toggle="sign-up-password" aria-label="Mostrar contraseña">Mostrar</button>
+              </span>
+            </label>
+
+            <label for="confirm-password">
+              <span>Confirmar contraseña</span>
+              <span class="auth-password-field">
+                <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
+                <button class="auth-password-toggle" type="button" data-password-toggle="confirm-password" aria-label="Mostrar contraseña">Mostrar</button>
+              </span>
+            </label>
+
+            <button class="auth-submit" type="submit">Crear cuenta</button>
+          </form>
+        </section>
+
+        <p class="auth-status" id="auth-status" role="status" hidden></p>
+        <p class="auth-demo-note">Tu contraseña no se conserva en el navegador. El servidor la guarda como hash y mantiene la sesión solo en esta pestaña.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__main">
+      <div class="site-footer__brand">
+        <a href="index.html#inicio">DevJobs</a>
+        <p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+      </div>
+      <div class="site-footer__links">
+        <h2>Accesos rápidos</h2>
+        <nav aria-label="Accesos rápidos">
+          <a href="index.html#inicio">Inicio</a>
+          <a href="Empleos.html">Empleos</a>
+          <a href="Empresas.html">Empresas</a>
+          <a href="Salarios.html">Salarios</a>
+        </nav>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+      <a href="#inicio">Volver al inicio</a>
+    </div>
+  </footer>
+
+  <script>
+    const signInTab = document.querySelector('#sign-in-tab');
+    const signUpTab = document.querySelector('#sign-up-tab');
+    const signInPanel = document.querySelector('#sign-in-panel');
+    const signUpPanel = document.querySelector('#sign-up-panel');
+    const authStatus = document.querySelector('#auth-status');
+
+    function showAuthPanel(panelName) {
+      const isSignIn = panelName === 'sign-in';
+      signInPanel.hidden = !isSignIn;
+      signUpPanel.hidden = isSignIn;
+      signInTab.setAttribute('aria-selected', String(isSignIn));
+      signUpTab.setAttribute('aria-selected', String(!isSignIn));
+      signInTab.tabIndex = isSignIn ? 0 : -1;
+      signUpTab.tabIndex = isSignIn ? -1 : 0;
+      authStatus.hidden = true;
+    }
+
+    signInTab.addEventListener('click', () => showAuthPanel('sign-in'));
+    signUpTab.addEventListener('click', () => showAuthPanel('sign-up'));
+
+    document.querySelectorAll('[data-password-toggle]').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const input = document.getElementById(toggle.dataset.passwordToggle);
+        const shouldShow = input.type === 'password';
+        input.type = shouldShow ? 'text' : 'password';
+        toggle.textContent = shouldShow ? 'Ocultar' : 'Mostrar';
+        toggle.setAttribute('aria-label', `${shouldShow ? 'Ocultar' : 'Mostrar'} contraseña`);
+      });
+    });
+
+    const signUpPassword = document.querySelector('#sign-up-password');
+    const confirmPassword = document.querySelector('#confirm-password');
+    function validatePasswordMatch() {
+      confirmPassword.setCustomValidity(confirmPassword.value && confirmPassword.value !== signUpPassword.value
+        ? 'Las contraseñas no coinciden.'
+        : '');
+    }
+
+    signUpPassword.addEventListener('input', validatePasswordMatch);
+    confirmPassword.addEventListener('input', validatePasswordMatch);
+
+    async function sendAuthRequest(form, endpoint, payload) {
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.disabled = true;
+      submitButton.textContent = 'Conectando...';
+      authStatus.hidden = true;
+
+      try {
+        const response = await fetch(`/api/auth/${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'No se pudo completar el acceso.');
+
+        sessionStorage.setItem('devjobs-token', result.token);
+        sessionStorage.setItem('devjobs-user', JSON.stringify(result.user));
+        const destination = result.user.account_type === 'employer' ? 'PublicarEmpleo.html' : 'Empleos.html';
+        const action = endpoint === 'register' ? 'Cuenta creada' : 'Sesión iniciada';
+        authStatus.textContent = `${action} para ${result.user.full_name}. Te llevamos a DevJobs...`;
+        authStatus.hidden = false;
+        window.setTimeout(() => window.location.assign(destination), 1400);
+      } catch (error) {
+        authStatus.textContent = error.message || 'No pudimos conectar con el servidor. Comprueba la configuración e inténtalo de nuevo.';
+        authStatus.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    }
+
+    document.querySelector('#sign-in-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      sendAuthRequest(event.currentTarget, 'login', {
+        email: formData.get('email'),
+        password: formData.get('password')
+      });
+    });
+
+    document.querySelector('#sign-up-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      validatePasswordMatch();
+      if (!event.currentTarget.reportValidity()) return;
+      const formData = new FormData(event.currentTarget);
+      sendAuthRequest(event.currentTarget, 'register', {
+        fullName: formData.get('name'),
+        accountType: formData.get('accountType'),
+        email: formData.get('email'),
+        password: formData.get('password')
+      });
+    });
+  </script>
+  <script src="site-header.js"></script>
+</body>
+
+</html>

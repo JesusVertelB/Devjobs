@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Descubre empresas y equipos que están contratando talento tecnológico en DevJobs.">
+	<title>Empresas | DevJobs</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+	<header class="site-header" id="inicio">
+		<h2>DevJobs</h2>
+
+		<nav aria-label="Navegación principal">
+			<a href="index.html">Inicio</a>
+			<a href="Empleos.html">Empleos</a>
+			<a href="Empresas.html" aria-current="page">Empresas</a>
+			<a href="Salarios.html">Salarios</a>
+		</nav>
+
+		<div>
+			<a href="PublicarEmpleo.html">Publicar un empleo</a>
+			<a href="IniciarSesion.html">Iniciar sesión</a>
+		</div>
+	</header>
+
+	<main class="companies-page">
+		<section class="companies-hero" aria-labelledby="companies-title">
+			<div class="companies-container">
+				<p class="companies-eyebrow">Equipos que construyen el futuro</p>
+				<h1 id="companies-title">Encuentra una empresa que comparta tu manera de crecer.</h1>
+				<p class="companies-hero__copy">Conoce su cultura, descubre en qué trabajan y encuentra equipos con retos para ti.</p>
+
+				<form class="companies-search" id="companies-search" role="search">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+						stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<circle cx="10.8" cy="10.8" r="6.8"></circle>
+						<path d="m16 16 5 5"></path>
+					</svg>
+					<input id="company-query" type="search" placeholder="Empresa, industria o ubicación" aria-label="Buscar empresas">
+					<button type="submit">Buscar empresas</button>
+				</form>
+			</div>
+		</section>
+
+		<section class="companies-results companies-container" aria-labelledby="results-title">
+			<div class="companies-toolbar">
+				<div>
+					<p class="companies-eyebrow">Conoce a sus equipos</p>
+					<h2 id="results-title">Empresas destacadas</h2>
+					<p id="company-count" class="companies-count" aria-live="polite">6 empresas disponibles</p>
+				</div>
+
+				<div class="companies-controls">
+					<label for="industry-filter">
+						<span>Industria</span>
+						<select id="industry-filter">
+							<option value="">Todas</option>
+							<option value="saas">Software</option>
+							<option value="fintech">Fintech</option>
+							<option value="cloud">Cloud e infraestructura</option>
+							<option value="climate">Climate tech</option>
+							<option value="design">Diseño digital</option>
+							<option value="agency">Agencia digital</option>
+						</select>
+					</label>
+
+					<label for="company-sort">
+						<span>Ordenar por</span>
+						<select id="company-sort">
+							<option value="featured">Relevancia</option>
+							<option value="openings">Más vacantes</option>
+							<option value="name">Nombre A-Z</option>
+						</select>
+					</label>
+
+					<button class="companies-clear" id="clear-company-filters" type="button">Limpiar</button>
+				</div>
+			</div>
+
+			<div class="companies-grid" id="companies-grid" aria-label="Directorio de empresas">
+				<article class="company-card" data-industry="saas" data-openings="4" data-rank="1" data-search="Estudio Nube software SaaS productividad Ciudad de México México remoto producto">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--mint" aria-hidden="true">N</div>
+						<span class="company-size">51–200 personas</span>
+					</div>
+					<p class="company-sector">Software · Productividad</p>
+					<h3>Estudio Nube</h3>
+					<p class="company-location">Ciudad de México · Remoto</p>
+					<p class="company-description">Creamos herramientas digitales que ayudan a los equipos a trabajar mejor, desde cualquier lugar.</p>
+					<div class="company-tags"><span>Producto</span><span>SaaS</span><span>Remoto</span></div>
+					<div class="company-card__bottom">
+						<span>4 vacantes abiertas</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<article class="company-card" data-industry="fintech" data-openings="3" data-rank="2" data-search="Nómada Pay fintech pagos Latinoamérica remoto finanzas">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--coral" aria-hidden="true">NP</div>
+						<span class="company-size">51–200 personas</span>
+					</div>
+					<p class="company-sector">Fintech · Pagos</p>
+					<h3>Nómada Pay</h3>
+					<p class="company-location">Latinoamérica · Remoto</p>
+					<p class="company-description">Simplificamos los pagos para que las personas y los negocios puedan moverse sin fronteras.</p>
+					<div class="company-tags"><span>Fintech</span><span>APIs</span><span>Remoto</span></div>
+					<div class="company-card__bottom">
+						<span>3 vacantes abiertas</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<article class="company-card" data-industry="cloud" data-openings="5" data-rank="3" data-search="Orbital Cloud infraestructura nube cloud AWS Kubernetes México remoto">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--blue" aria-hidden="true">O</div>
+						<span class="company-size">201–500 personas</span>
+					</div>
+					<p class="company-sector">Cloud · Infraestructura</p>
+					<h3>Orbital Cloud</h3>
+					<p class="company-location">México · Remoto</p>
+					<p class="company-description">Diseñamos infraestructura confiable para productos digitales que necesitan escalar.</p>
+					<div class="company-tags"><span>Cloud</span><span>DevOps</span><span>Seguridad</span></div>
+					<div class="company-card__bottom">
+						<span>5 vacantes abiertas</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<article class="company-card" data-industry="climate" data-openings="2" data-rank="4" data-search="Verde Labs climate tech datos sostenibilidad Ciudad de México híbrido">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--gold" aria-hidden="true">V</div>
+						<span class="company-size">11–50 personas</span>
+					</div>
+					<p class="company-sector">Climate tech · Datos</p>
+					<h3>Verde Labs</h3>
+					<p class="company-location">Ciudad de México · Híbrido</p>
+					<p class="company-description">Usamos tecnología y datos para hacer más sostenibles las decisiones de cada día.</p>
+					<div class="company-tags"><span>Impacto</span><span>Datos</span><span>Híbrido</span></div>
+					<div class="company-card__bottom">
+						<span>2 vacantes abiertas</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<article class="company-card" data-industry="design" data-openings="3" data-rank="5" data-search="Lumen Studio diseño digital UX producto Guadalajara híbrido">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--lilac" aria-hidden="true">L</div>
+						<span class="company-size">11–50 personas</span>
+					</div>
+					<p class="company-sector">Diseño digital · Producto</p>
+					<h3>Lumen Studio</h3>
+					<p class="company-location">Guadalajara · Híbrido</p>
+					<p class="company-description">Acompañamos a equipos que quieren convertir ideas complejas en productos claros y útiles.</p>
+					<div class="company-tags"><span>UX/UI</span><span>Research</span><span>Producto</span></div>
+					<div class="company-card__bottom">
+						<span>3 vacantes abiertas</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<article class="company-card" data-industry="agency" data-openings="1" data-rank="6" data-search="Taller Web agencia digital desarrollo Monterrey presencial">
+					<div class="company-card__head">
+						<div class="company-mark company-mark--mint" aria-hidden="true">T</div>
+						<span class="company-size">1–10 personas</span>
+					</div>
+					<p class="company-sector">Agencia digital · Desarrollo</p>
+					<h3>Taller Web</h3>
+					<p class="company-location">Monterrey · Presencial</p>
+					<p class="company-description">Somos un equipo cercano que desarrolla experiencias web para marcas con grandes ideas.</p>
+					<div class="company-tags"><span>Web</span><span>Creatividad</span><span>Equipo pequeño</span></div>
+					<div class="company-card__bottom">
+						<span>1 vacante abierta</span>
+						<a href="Empleos.html">Ver vacantes</a>
+					</div>
+				</article>
+
+				<div class="companies-empty" id="companies-empty" hidden>
+					<h3>No encontramos empresas con esos criterios</h3>
+					<p>Prueba otra búsqueda o limpia el filtro de industria.</p>
+					<button class="companies-clear" id="empty-company-clear" type="button">Limpiar búsqueda</button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="site-footer__main">
+			<div class="site-footer__brand">
+				<a href="index.html#inicio">DevJobs</a>
+				<p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+			</div>
+
+			<div class="site-footer__links">
+				<h2>Accesos rápidos</h2>
+				<nav aria-label="Accesos rápidos">
+					<a href="index.html#inicio">Inicio</a>
+					<a href="Empleos.html">Empleos</a>
+					<a href="#companies-grid">Empresas</a>
+					<a href="index.html#salarios">Salarios</a>
+				</nav>
+			</div>
+		</div>
+
+		<div class="site-footer__bottom">
+			<small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+			<a href="#inicio">Volver al inicio</a>
+		</div>
+	</footer>
+
+	<script>
+		const companyForm = document.querySelector('#companies-search');
+		const companyQuery = document.querySelector('#company-query');
+		const industryFilter = document.querySelector('#industry-filter');
+		const companySort = document.querySelector('#company-sort');
+		const companyGrid = document.querySelector('#companies-grid');
+		const companyCards = [...companyGrid.querySelectorAll('.company-card')];
+		const companyCount = document.querySelector('#company-count');
+		const emptyCompanies = document.querySelector('#companies-empty');
+
+		function updateCompanies() {
+			const query = companyQuery.value.trim().toLocaleLowerCase('es');
+			const sortMode = companySort.value;
+			const sortedCompanies = [...companyCards].sort((first, second) => {
+				if (sortMode === 'openings') return Number(second.dataset.openings) - Number(first.dataset.openings);
+				if (sortMode === 'name') return first.querySelector('h3').textContent.localeCompare(second.querySelector('h3').textContent, 'es');
+				return Number(first.dataset.rank) - Number(second.dataset.rank);
+			});
+
+			let visibleCount = 0;
+			sortedCompanies.forEach((company) => {
+				const matchesQuery = !query || company.dataset.search.toLocaleLowerCase('es').includes(query);
+				const matchesIndustry = !industryFilter.value || company.dataset.industry === industryFilter.value;
+				const isVisible = matchesQuery && matchesIndustry;
+				company.hidden = !isVisible;
+				if (isVisible) visibleCount += 1;
+				companyGrid.append(company);
+			});
+
+			companyCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'empresa disponible' : 'empresas disponibles'}`;
+			emptyCompanies.hidden = visibleCount > 0;
+		}
+
+		function clearCompanyFilters() {
+			companyForm.reset();
+			industryFilter.value = '';
+			companySort.value = 'featured';
+			updateCompanies();
+		}
+
+		companyForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			updateCompanies();
+		});
+		companyQuery.addEventListener('input', updateCompanies);
+		industryFilter.addEventListener('change', updateCompanies);
+		companySort.addEventListener('change', updateCompanies);
+		document.querySelector('#clear-company-filters').addEventListener('click', clearCompanyFilters);
+		document.querySelector('#empty-company-clear').addEventListener('click', clearCompanyFilters);
+	</script>
+	<script src="site-header.js"></script>
+</body>
+
+</html>

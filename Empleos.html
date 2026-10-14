@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Explora oportunidades de empleo para desarrolladores en DevJobs.">
+	<title>Empleos | DevJobs</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+	<header class="site-header" id="inicio">
+		<h2>DevJobs</h2>
+
+		<nav aria-label="Navegación principal">
+			<a href="index.html">Inicio</a>
+			<a href="Empleos.html" aria-current="page">Empleos</a>
+			<a href="Empresas.html">Empresas</a>
+			<a href="Salarios.html">Salarios</a>
+		</nav>
+
+		<div>
+			<a href="PublicarEmpleo.html">Publicar un empleo</a>
+			<a href="IniciarSesion.html">Iniciar sesión</a>
+		</div>
+	</header>
+
+	<main class="jobs-page">
+		<section class="jobs-intro" aria-labelledby="jobs-title">
+			<div class="jobs-container">
+				<p class="jobs-eyebrow">Tu siguiente paso profesional</p>
+				<h1 id="jobs-title">Encuentra un lugar donde tu talento crezca.</h1>
+				<p class="jobs-intro__copy">Oportunidades para desarrolladores, diseñadores y especialistas en tecnología.</p>
+
+				<form class="jobs-search" id="jobs-search" role="search">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<circle cx="10.8" cy="10.8" r="6.8"></circle>
+						<path d="m16 16 5 5"></path>
+					</svg>
+					<input id="job-query" type="search" placeholder="Puesto, habilidad o empresa" aria-label="Buscar vacantes">
+					<button type="submit">Buscar empleos</button>
+				</form>
+
+				<p class="jobs-search-hint">Prueba con: React, diseño de producto o remoto</p>
+			</div>
+		</section>
+
+		<section class="jobs-results jobs-container" aria-labelledby="results-title">
+			<div class="jobs-results__heading">
+				<div>
+					<p class="jobs-eyebrow">Nuevas oportunidades</p>
+					<h2 id="results-title">Vacantes destacadas</h2>
+					<p class="jobs-results__count" id="results-count" aria-live="polite">6 vacantes disponibles</p>
+				</div>
+
+				<label class="jobs-sort" for="sort-jobs">
+					<span class="jobs-sort__label">Ordenar por</span>
+					<span class="jobs-sort__control">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+							stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M4 6h11M4 12h8M4 18h5"></path>
+							<path d="m17 14 3 3 3-3M20 17V4"></path>
+						</svg>
+						<select id="sort-jobs">
+							<option value="featured">Relevancia</option>
+							<option value="recent">Más recientes</option>
+							<option value="salary">Salario más alto</option>
+						</select>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+							stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="m6 9 6 6 6-6"></path>
+						</svg>
+					</span>
+				</label>
+			</div>
+
+			<div class="jobs-layout">
+				<aside class="jobs-filters" aria-label="Filtros de vacantes">
+					<div class="jobs-filters__heading">
+						<h2>Filtros</h2>
+						<button class="jobs-clear" id="clear-filters" type="button">Limpiar</button>
+					</div>
+
+					<label class="jobs-field" for="filter-area">
+						<span>Área profesional</span>
+						<select id="filter-area">
+							<option value="">Todas las áreas</option>
+							<option value="frontend">Frontend</option>
+							<option value="backend">Backend</option>
+							<option value="data">Datos</option>
+							<option value="design">Diseño de producto</option>
+							<option value="devops">DevOps</option>
+						</select>
+					</label>
+
+					<label class="jobs-field" for="filter-mode">
+						<span>Modalidad</span>
+						<select id="filter-mode">
+							<option value="">Cualquier modalidad</option>
+							<option value="remote">Remoto</option>
+							<option value="hybrid">Híbrido</option>
+							<option value="onsite">Presencial</option>
+						</select>
+					</label>
+
+					<fieldset class="jobs-types">
+						<legend>Tipo de empleo</legend>
+						<label><input type="checkbox" name="employment-type" value="full-time"> Tiempo completo</label>
+						<label><input type="checkbox" name="employment-type" value="part-time"> Medio tiempo</label>
+						<label><input type="checkbox" name="employment-type" value="contract"> Contrato</label>
+					</fieldset>
+
+					<p class="jobs-filter-note">Los filtros se aplican al instante.</p>
+				</aside>
+
+				<div class="jobs-list" id="jobs-list" aria-label="Resultados de empleo">
+					<article class="job-card" data-demo-job data-category="frontend" data-mode="remote" data-type="full-time" data-salary="78000" data-age="1" data-rank="1" data-search="Frontend Developer Estudio Nube React TypeScript remoto México">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--mint" aria-hidden="true">N</div>
+							<div class="job-card__title">
+								<p class="job-company">Estudio Nube</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=frontend">Frontend Developer</a></h3>
+							</div>
+							<span class="job-mode">Remoto</span>
+						</div>
+						<div class="job-meta"><span>México</span><span>Tiempo completo</span><span>Hace 1 día</span></div>
+						<p class="job-description">Construye experiencias web rápidas y accesibles junto a un equipo de producto colaborativo.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>React</span><span>TypeScript</span><span>CSS</span></div>
+							<span class="job-salary">$65k–$78k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=frontend">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<article class="job-card" data-demo-job data-category="backend" data-mode="remote" data-type="full-time" data-salary="72000" data-age="2" data-rank="2" data-search="Backend Developer Nomada Pay Node.js PostgreSQL remoto Latinoamérica">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--coral" aria-hidden="true">NP</div>
+							<div class="job-card__title">
+								<p class="job-company">Nómada Pay</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=backend">Backend Developer</a></h3>
+							</div>
+							<span class="job-mode">Remoto</span>
+						</div>
+						<div class="job-meta"><span>Latinoamérica</span><span>Tiempo completo</span><span>Hace 2 días</span></div>
+						<p class="job-description">Diseña servicios confiables para una plataforma financiera en crecimiento.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>Node.js</span><span>PostgreSQL</span><span>APIs</span></div>
+							<span class="job-salary">$60k–$72k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=backend">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<article class="job-card" data-demo-job data-category="devops" data-mode="remote" data-type="full-time" data-salary="85000" data-age="2" data-rank="3" data-search="DevOps Engineer Orbital Cloud AWS Kubernetes remoto">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--blue" aria-hidden="true">O</div>
+							<div class="job-card__title">
+								<p class="job-company">Orbital Cloud</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=devops">DevOps Engineer</a></h3>
+							</div>
+							<span class="job-mode">Remoto</span>
+						</div>
+						<div class="job-meta"><span>México</span><span>Tiempo completo</span><span>Hace 2 días</span></div>
+						<p class="job-description">Mejora la infraestructura y las herramientas que permiten entregar software con confianza.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>AWS</span><span>Kubernetes</span><span>CI/CD</span></div>
+							<span class="job-salary">$72k–$85k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=devops">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<article class="job-card" data-demo-job data-category="data" data-mode="hybrid" data-type="full-time" data-salary="56000" data-age="3" data-rank="4" data-search="Data Analyst Verde Labs SQL Python híbrido Ciudad de México">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--gold" aria-hidden="true">V</div>
+							<div class="job-card__title">
+								<p class="job-company">Verde Labs</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=data">Data Analyst</a></h3>
+							</div>
+							<span class="job-mode">Híbrido</span>
+						</div>
+						<div class="job-meta"><span>Ciudad de México</span><span>Tiempo completo</span><span>Hace 3 días</span></div>
+						<p class="job-description">Convierte datos de producto en información clara para tomar mejores decisiones.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>SQL</span><span>Python</span><span>Looker</span></div>
+							<span class="job-salary">$45k–$56k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=data">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<article class="job-card" data-demo-job data-category="design" data-mode="hybrid" data-type="full-time" data-salary="52000" data-age="4" data-rank="5" data-search="Product Designer Lumen Studio Figma UX UI híbrido Guadalajara">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--lilac" aria-hidden="true">L</div>
+							<div class="job-card__title">
+								<p class="job-company">Lumen Studio</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=design">Product Designer</a></h3>
+							</div>
+							<span class="job-mode">Híbrido</span>
+						</div>
+						<div class="job-meta"><span>Guadalajara</span><span>Tiempo completo</span><span>Hace 4 días</span></div>
+						<p class="job-description">Da forma a productos digitales intuitivos desde la investigación hasta el prototipo.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>Figma</span><span>UX Research</span><span>Prototipos</span></div>
+							<span class="job-salary">$42k–$52k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=design">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<article class="job-card" data-demo-job data-category="frontend" data-mode="onsite" data-type="contract" data-salary="38000" data-age="5" data-rank="6" data-search="Web Developer Taller Web HTML CSS JavaScript presencial Monterrey contrato">
+						<div class="job-card__top">
+							<div class="company-mark company-mark--mint" aria-hidden="true">T</div>
+							<div class="job-card__title">
+								<p class="job-company">Taller Web</p>
+								<h3><a class="job-card__open" href="DetalleEmpleo.html?id=web">Web Developer</a></h3>
+							</div>
+							<span class="job-mode">Presencial</span>
+						</div>
+						<div class="job-meta"><span>Monterrey</span><span>Contrato</span><span>Hace 5 días</span></div>
+						<p class="job-description">Colabora en proyectos web para marcas locales con un equipo pequeño y multidisciplinario.</p>
+						<div class="job-card__bottom">
+							<div class="job-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+							<span class="job-salary">$32k–$38k <small>MXN / mes</small></span>
+						</div>
+						<div class="job-details">
+							<a class="job-details__link" href="DetalleEmpleo.html?id=web">Ver detalles del puesto <span aria-hidden="true">-&gt;</span></a>
+						</div>
+					</article>
+
+					<div class="jobs-empty" id="jobs-empty" hidden>
+						<h3>No encontramos vacantes con esos filtros</h3>
+						<p>Prueba con otra búsqueda o limpia los filtros para ver todas las oportunidades.</p>
+						<button class="jobs-clear" id="empty-clear" type="button">Limpiar filtros</button>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="site-footer__main">
+			<div class="site-footer__brand">
+				<a href="index.html#inicio">DevJobs</a>
+				<p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+			</div>
+
+			<div class="site-footer__links">
+				<h2>Accesos rápidos</h2>
+				<nav aria-label="Accesos rápidos">
+					<a href="index.html#inicio">Inicio</a>
+					<a href="#jobs-list">Vacantes</a>
+					<a href="index.html#empresas">Empresas</a>
+					<a href="index.html#salarios">Salarios</a>
+				</nav>
+			</div>
+		</div>
+
+		<div class="site-footer__bottom">
+			<small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+			<a href="#inicio">Volver al inicio</a>
+		</div>
+	</footer>
+
+	<script>
+		const searchForm = document.querySelector('#jobs-search');
+		const queryInput = document.querySelector('#job-query');
+		const areaFilter = document.querySelector('#filter-area');
+		const modeFilter = document.querySelector('#filter-mode');
+		const typeFilters = [...document.querySelectorAll('input[name="employment-type"]')];
+		const sortSelect = document.querySelector('#sort-jobs');
+		const jobsList = document.querySelector('#jobs-list');
+		const resultsCount = document.querySelector('#results-count');
+		const emptyState = document.querySelector('#jobs-empty');
+		const customJobsKey = 'devjobs-custom-jobs';
+		let customJobs = [];
+
+		try {
+			customJobs = JSON.parse(localStorage.getItem(customJobsKey) || '[]');
+		} catch {
+			customJobs = [];
+		}
+
+		function createCustomJobCard(job, index) {
+			const card = document.createElement('article');
+			card.className = 'job-card';
+			card.dataset.category = job.category;
+			card.dataset.mode = job.modeKey;
+			card.dataset.type = job.typeKey;
+			card.dataset.salary = String(job.salaryMedian || 0);
+			card.dataset.age = '0';
+			card.dataset.rank = String(index + 7);
+			card.dataset.search = [job.title, job.company, job.location, job.description, ...(job.tags || [])].join(' ');
+
+			const top = document.createElement('div');
+			top.className = 'job-card__top';
+			const mark = document.createElement('div');
+			mark.className = 'company-mark company-mark--mint';
+			mark.setAttribute('aria-hidden', 'true');
+			mark.textContent = job.mark;
+			const titleGroup = document.createElement('div');
+			titleGroup.className = 'job-card__title';
+			const companyName = document.createElement('p');
+			companyName.className = 'job-company';
+			companyName.textContent = job.company;
+			const title = document.createElement('h3');
+			const titleLink = document.createElement('a');
+			titleLink.className = 'job-card__open';
+			titleLink.href = `DetalleEmpleo.html?id=${encodeURIComponent(job.id)}`;
+			titleLink.textContent = job.title;
+			title.append(titleLink);
+			titleGroup.append(companyName, title);
+			const mode = document.createElement('span');
+			mode.className = 'job-mode';
+			mode.textContent = job.mode;
+			top.append(mark, titleGroup, mode);
+
+			const meta = document.createElement('div');
+			meta.className = 'job-meta';
+			[job.location, job.type, job.posted].forEach((value) => {
+				const item = document.createElement('span');
+				item.textContent = value;
+				meta.append(item);
+			});
+
+			const description = document.createElement('p');
+			description.className = 'job-description';
+			description.textContent = job.description;
+			const bottom = document.createElement('div');
+			bottom.className = 'job-card__bottom';
+			const tags = document.createElement('div');
+			tags.className = 'job-tags';
+			(job.tags || []).slice(0, 3).forEach((value) => {
+				const tag = document.createElement('span');
+				tag.textContent = value;
+				tags.append(tag);
+			});
+			const salary = document.createElement('span');
+			salary.className = 'job-salary';
+			salary.append(document.createTextNode(job.salary || 'A convenir'));
+			const salaryNote = document.createElement('small');
+			salaryNote.textContent = job.salary ? 'MXN / mes' : 'salario';
+			salary.append(salaryNote);
+			bottom.append(tags, salary);
+
+			const details = document.createElement('div');
+			details.className = 'job-details';
+			const detailsLink = document.createElement('a');
+			detailsLink.className = 'job-details__link';
+			detailsLink.href = `DetalleEmpleo.html?id=${encodeURIComponent(job.id)}`;
+			detailsLink.textContent = 'Ver detalles del puesto ->';
+			details.append(detailsLink);
+			card.append(top, meta, description, bottom, details);
+			return card;
+		}
+
+		customJobs.forEach((job, index) => jobsList.insertBefore(createCustomJobCard(job, index), emptyState));
+		let jobCards = [...jobsList.querySelectorAll('.job-card')];
+
+		async function loadDatabaseJobs() {
+			try {
+				const response = await fetch('/api/jobs');
+				if (!response.ok) return;
+				const databaseJobs = await response.json();
+				jobsList.querySelectorAll('[data-demo-job]').forEach((card) => card.remove());
+
+				const modeLabels = { remote: 'Remoto', hybrid: 'Híbrido', onsite: 'Presencial' };
+				const typeLabels = { full_time: 'Tiempo completo', part_time: 'Medio tiempo', contract: 'Contrato' };
+				databaseJobs.forEach((record, index) => {
+					const salaryMin = Number(record.salary_min);
+					const salaryMax = Number(record.salary_max);
+					const hasSalary = salaryMin > 0 && salaryMax > 0;
+					const salaryFormatter = new Intl.NumberFormat('es-MX', {
+						style: 'currency',
+						currency: record.salary_currency || 'MXN',
+						maximumFractionDigits: 0
+					});
+					const postedDate = record.published_at ? new Date(record.published_at) : new Date();
+					const job = {
+						id: `db-${record.id}`,
+						title: record.title,
+						company: record.company,
+						category: record.category,
+						modeKey: record.work_mode,
+						mode: modeLabels[record.work_mode] || record.work_mode,
+						typeKey: record.employment_type.replace('_', '-'),
+						type: typeLabels[record.employment_type] || record.employment_type,
+						location: record.location,
+						salary: hasSalary ? `${salaryFormatter.format(salaryMin)}–${salaryFormatter.format(salaryMax)}` : '',
+						salaryMedian: hasSalary ? Math.round((salaryMin + salaryMax) / 2) : 0,
+						description: record.description,
+						tags: record.skills ? record.skills.split(',') : [],
+						mark: record.company.slice(0, 2).toLocaleUpperCase('es'),
+						posted: `Publicada el ${postedDate.toLocaleDateString('es-MX')}`
+					};
+					const card = createCustomJobCard(job, index);
+					card.dataset.age = String(index);
+					card.dataset.rank = String(index + 1);
+					jobsList.insertBefore(card, emptyState);
+				});
+
+				jobCards = [...jobsList.querySelectorAll('.job-card')];
+				updateJobs();
+			} catch {
+				updateJobs();
+			}
+		}
+
+		function updateJobs() {
+			const query = queryInput.value.trim().toLocaleLowerCase('es');
+			const selectedTypes = typeFilters.filter((filter) => filter.checked).map((filter) => filter.value);
+			const sortMode = sortSelect.value;
+			const sortedCards = [...jobCards].sort((first, second) => {
+				if (sortMode === 'recent') return Number(first.dataset.age) - Number(second.dataset.age);
+				if (sortMode === 'salary') return Number(second.dataset.salary) - Number(first.dataset.salary);
+				return Number(first.dataset.rank) - Number(second.dataset.rank);
+			});
+
+			let visibleCount = 0;
+			sortedCards.forEach((card) => {
+				const matchesQuery = !query || card.dataset.search.toLocaleLowerCase('es').includes(query);
+				const matchesArea = !areaFilter.value || card.dataset.category === areaFilter.value;
+				const matchesMode = !modeFilter.value || card.dataset.mode === modeFilter.value;
+				const matchesType = selectedTypes.length === 0 || selectedTypes.includes(card.dataset.type);
+				const isVisible = matchesQuery && matchesArea && matchesMode && matchesType;
+
+				card.hidden = !isVisible;
+				if (isVisible) visibleCount += 1;
+				jobsList.append(card);
+			});
+
+			resultsCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'vacante disponible' : 'vacantes disponibles'}`;
+			emptyState.hidden = visibleCount !== 0;
+		}
+
+		function clearFilters() {
+			searchForm.reset();
+			areaFilter.value = '';
+			modeFilter.value = '';
+			sortSelect.value = 'featured';
+			typeFilters.forEach((filter) => { filter.checked = false; });
+			updateJobs();
+		}
+
+		searchForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			updateJobs();
+		});
+		queryInput.addEventListener('input', updateJobs);
+		areaFilter.addEventListener('change', updateJobs);
+		modeFilter.addEventListener('change', updateJobs);
+		typeFilters.forEach((filter) => filter.addEventListener('change', updateJobs));
+		sortSelect.addEventListener('change', updateJobs);
+		document.querySelector('#clear-filters').addEventListener('click', clearFilters);
+		document.querySelector('#empty-clear').addEventListener('click', clearFilters);
+		loadDatabaseJobs();
+	</script>
+	<script src="site-header.js"></script>
+</body>
+
+</html>

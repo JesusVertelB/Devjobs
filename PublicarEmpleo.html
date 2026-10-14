@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Publica una vacante para conectar con talento tecnológico en DevJobs.">
+  <title>Publicar empleo | DevJobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+  <header class="site-header" id="inicio">
+    <h2>DevJobs</h2>
+    <nav aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="Empleos.html">Empleos</a>
+      <a href="Empresas.html">Empresas</a>
+      <a href="Salarios.html">Salarios</a>
+    </nav>
+    <div>
+      <a href="PublicarEmpleo.html" aria-current="page">Publicar un empleo</a>
+      <a href="IniciarSesion.html">Iniciar sesión</a>
+    </div>
+  </header>
+
+  <main class="publish-page">
+    <section class="publish-hero" aria-labelledby="publish-title">
+      <div class="publish-container">
+        <p class="publish-eyebrow">Para equipos que están creciendo</p>
+        <h1 id="publish-title">Encuentra a la persona que sigue construyendo contigo.</h1>
+        <p>Describe la oportunidad con claridad y conecta con talento tecnológico.</p>
+      </div>
+    </section>
+
+    <div class="publish-container publish-layout">
+      <section class="publish-form-panel" aria-labelledby="form-title">
+        <div class="publish-form-heading">
+          <div>
+            <p class="publish-eyebrow">Nueva oportunidad</p>
+            <h2 id="form-title">Información del puesto</h2>
+          </div>
+          <span class="publish-required-note">* Campos obligatorios</span>
+        </div>
+
+        <form class="publish-form" id="publish-form">
+          <div class="publish-fields publish-fields--two">
+            <label for="company-name">
+              <span>Nombre de la empresa *</span>
+              <input id="company-name" name="company" type="text" maxlength="80" autocomplete="organization" required>
+            </label>
+            <label for="job-title">
+              <span>Nombre del puesto *</span>
+              <input id="job-title" name="title" type="text" maxlength="100" placeholder="Ej. Frontend Developer" required>
+            </label>
+          </div>
+
+          <div class="publish-fields publish-fields--three">
+            <label for="job-category">
+              <span>Área profesional *</span>
+              <select id="job-category" name="category" required>
+                <option value="">Selecciona un área</option>
+                <option value="frontend">Frontend</option>
+                <option value="backend">Backend</option>
+                <option value="data">Datos</option>
+                <option value="design">Diseño de producto</option>
+                <option value="devops">DevOps</option>
+              </select>
+            </label>
+            <label for="job-mode">
+              <span>Modalidad *</span>
+              <select id="job-mode" name="mode" required>
+                <option value="remote">Remoto</option>
+                <option value="hybrid">Híbrido</option>
+                <option value="onsite">Presencial</option>
+              </select>
+            </label>
+            <label for="job-type">
+              <span>Tipo de empleo *</span>
+              <select id="job-type" name="type" required>
+                <option value="full-time">Tiempo completo</option>
+                <option value="part-time">Medio tiempo</option>
+                <option value="contract">Contrato</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="publish-fields publish-fields--two">
+            <label for="job-location">
+              <span>Ubicación *</span>
+              <input id="job-location" name="location" type="text" maxlength="80" placeholder="Ej. México o Ciudad de México" required>
+            </label>
+            <label for="contact-email">
+              <span>Correo de contacto *</span>
+              <input id="contact-email" name="contactEmail" type="email" maxlength="120" autocomplete="email" required>
+            </label>
+          </div>
+
+          <fieldset class="publish-salary">
+            <legend>Rango salarial mensual <small>Opcional · MXN</small></legend>
+            <div class="publish-fields publish-fields--two">
+              <label for="salary-min">
+                <span>Mínimo</span>
+                <input id="salary-min" name="salaryMin" type="number" min="1000" step="1000" inputmode="numeric" placeholder="Ej. 40000">
+              </label>
+              <label for="salary-max">
+                <span>Máximo</span>
+                <input id="salary-max" name="salaryMax" type="number" min="1000" step="1000" inputmode="numeric" placeholder="Ej. 60000">
+              </label>
+            </div>
+          </fieldset>
+
+          <label for="job-description">
+            <span>Descripción del puesto *</span>
+            <textarea id="job-description" name="description" rows="4" maxlength="700" placeholder="Cuéntale a las personas qué hace especial esta oportunidad." required></textarea>
+          </label>
+
+          <label for="job-responsibilities">
+            <span>Responsabilidades principales *</span>
+            <textarea id="job-responsibilities" name="responsibilities" rows="4" placeholder="Una responsabilidad por línea" required></textarea>
+            <small>Escribe un punto por línea.</small>
+          </label>
+
+          <label for="job-requirements">
+            <span>Requisitos *</span>
+            <textarea id="job-requirements" name="requirements" rows="4" placeholder="Una habilidad o requisito por línea" required></textarea>
+            <small>Escribe un punto por línea.</small>
+          </label>
+
+          <label for="job-benefits">
+            <span>Beneficios <small>Opcional</small></span>
+            <textarea id="job-benefits" name="benefits" rows="3" placeholder="Una prestación por línea"></textarea>
+            <small>Escribe un punto por línea.</small>
+          </label>
+
+          <label for="job-tags">
+            <span>Habilidades o tecnologías <small>Opcional</small></span>
+            <input id="job-tags" name="tags" type="text" maxlength="160" placeholder="React, TypeScript, Accesibilidad">
+            <small>Sepáralas con comas.</small>
+          </label>
+
+          <button class="publish-submit" type="submit">Publicar vacante</button>
+          <p class="publish-status" id="publish-status" role="status" hidden></p>
+        </form>
+      </section>
+
+      <aside class="publish-aside" aria-label="Información sobre esta demo">
+        <div class="publish-aside__mark" aria-hidden="true">DJ</div>
+        <p class="publish-eyebrow">Publicación para empresas</p>
+        <h2>Tu vacante, clara desde el inicio.</h2>
+        <p>Completa los datos esenciales para que las personas puedan evaluar si el puesto es para ellas.</p>
+        <div class="publish-demo-note">
+          <strong>Conectado a MySQL</strong>
+          <p>Al publicarla, la vacante se guarda en la base DevJobs y queda visible en el listado del sitio.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="publish-success publish-container" id="publish-success" aria-live="polite" hidden>
+      <div>
+        <p class="publish-eyebrow">Publicada en DevJobs</p>
+        <h2>La vacante ya está disponible.</h2>
+        <p id="publish-success-title"></p>
+      </div>
+      <div class="publish-success__actions">
+        <a class="publish-success__primary" id="view-new-job" href="Empleos.html">Ver vacante</a>
+        <a class="publish-success__secondary" href="Empleos.html">Ir a empleos</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__main">
+      <div class="site-footer__brand">
+        <a href="index.html#inicio">DevJobs</a>
+        <p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+      </div>
+      <div class="site-footer__links">
+        <h2>Accesos rápidos</h2>
+        <nav aria-label="Accesos rápidos">
+          <a href="index.html#inicio">Inicio</a>
+          <a href="Empleos.html">Empleos</a>
+          <a href="Empresas.html">Empresas</a>
+          <a href="Salarios.html">Salarios</a>
+        </nav>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+      <a href="#inicio">Volver al inicio</a>
+    </div>
+  </footer>
+
+  <script>
+    const publishForm = document.querySelector('#publish-form');
+    const salaryMinInput = document.querySelector('#salary-min');
+    const salaryMaxInput = document.querySelector('#salary-max');
+    const salaryRangeFields = [salaryMinInput, salaryMaxInput];
+    const publishStatus = document.querySelector('#publish-status');
+
+    function validateSalaryRange() {
+      const minimum = Number(salaryMinInput.value);
+      const maximum = Number(salaryMaxInput.value);
+      const onlyOneValue = Boolean(salaryMinInput.value) !== Boolean(salaryMaxInput.value);
+
+      salaryMinInput.setCustomValidity('');
+      salaryMaxInput.setCustomValidity('');
+      if (onlyOneValue) {
+        salaryMaxInput.setCustomValidity('Completa ambos valores o deja el rango vacío.');
+      } else if (minimum > maximum) {
+        salaryMaxInput.setCustomValidity('El máximo debe ser igual o mayor al mínimo.');
+      }
+    }
+
+    salaryRangeFields.forEach((field) => field.addEventListener('input', validateSalaryRange));
+
+    publishForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      validateSalaryRange();
+      if (!publishForm.reportValidity()) return;
+
+      const token = sessionStorage.getItem('devjobs-token');
+      let user;
+      try {
+        user = JSON.parse(sessionStorage.getItem('devjobs-user') || 'null');
+      } catch {
+        user = null;
+      }
+      if (!token || user?.account_type !== 'employer') {
+        publishStatus.textContent = 'Inicia sesión con una cuenta de empresa para publicar esta vacante.';
+        publishStatus.hidden = false;
+        return;
+      }
+
+      const formData = new FormData(publishForm);
+      const submitButton = publishForm.querySelector('.publish-submit');
+      submitButton.disabled = true;
+      publishStatus.hidden = true;
+      try {
+        const response = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            company: formData.get('company').trim(),
+            title: formData.get('title').trim(),
+            category: formData.get('category'),
+            mode: formData.get('mode'),
+            type: formData.get('type').replace('-', '_'),
+            location: formData.get('location').trim(),
+            contactEmail: formData.get('contactEmail').trim(),
+            salaryMin: formData.get('salaryMin') || null,
+            salaryMax: formData.get('salaryMax') || null,
+            description: formData.get('description').trim(),
+            responsibilities: formData.get('responsibilities').split('\n').map((item) => item.trim()).filter(Boolean),
+            requirements: formData.get('requirements').split('\n').map((item) => item.trim()).filter(Boolean),
+            benefits: formData.get('benefits').split('\n').map((item) => item.trim()).filter(Boolean),
+            tags: formData.get('tags').split(',').map((item) => item.trim()).filter(Boolean)
+          })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'No pudimos guardar la vacante.');
+
+        const success = document.querySelector('#publish-success');
+        document.querySelector('#publish-success-title').textContent = `${result.title} · ${result.company}`;
+        document.querySelector('#view-new-job').href = `DetalleEmpleo.html?id=db-${result.id}`;
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        publishForm.reset();
+        validateSalaryRange();
+      } catch (error) {
+        publishStatus.textContent = error.message || 'No pudimos conectar con el servidor. Comprueba MySQL e inténtalo de nuevo.';
+        publishStatus.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+  <script src="site-header.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consulta los detalles de una vacante y prepara tu postulación en DevJobs.">
+  <title>Detalle de vacante | DevJobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tailwind.css">
+</head>
+
+<body>
+  <header class="site-header" id="inicio">
+    <h2>DevJobs</h2>
+
+    <nav aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="Empleos.html" aria-current="page">Empleos</a>
+      <a href="Empresas.html">Empresas</a>
+      <a href="Salarios.html">Salarios</a>
+    </nav>
+
+    <div>
+      <a href="PublicarEmpleo.html">Publicar un empleo</a>
+      <a href="IniciarSesion.html">Iniciar sesión</a>
+    </div>
+  </header>
+
+  <main class="job-detail-page">
+    <div class="job-detail-container">
+      <nav class="job-breadcrumb" aria-label="Ruta de navegación">
+        <a href="Empleos.html">Empleos</a>
+        <span aria-hidden="true">/</span>
+        <span id="breadcrumb-title">Detalle de vacante</span>
+      </nav>
+
+      <div class="job-detail-layout">
+        <article class="job-detail-main">
+          <header class="job-detail-heading">
+            <div id="detail-company-mark" class="company-mark company-mark--mint" aria-hidden="true">N</div>
+            <div>
+              <p id="detail-company" class="job-detail-company">Estudio Nube</p>
+              <h1 id="detail-title">Frontend Developer</h1>
+              <p id="detail-location" class="job-detail-location">México · Remoto · Tiempo completo</p>
+            </div>
+          </header>
+
+          <div class="job-detail-meta">
+            <span id="detail-salary">$65k–$78k MXN / mes</span>
+            <span id="detail-posted">Publicada hace 1 día</span>
+          </div>
+
+          <section class="job-detail-section" aria-labelledby="about-title">
+            <h2 id="about-title">Sobre el puesto</h2>
+            <p id="detail-description"></p>
+          </section>
+
+          <section class="job-detail-section" aria-labelledby="responsibilities-title">
+            <h2 id="responsibilities-title">Lo que harás</h2>
+            <ul id="detail-responsibilities"></ul>
+          </section>
+
+          <section class="job-detail-section" aria-labelledby="requirements-title">
+            <h2 id="requirements-title">Lo que buscamos</h2>
+            <ul id="detail-requirements"></ul>
+          </section>
+
+          <section class="job-detail-section" aria-labelledby="benefits-title">
+            <h2 id="benefits-title">Lo que ofrece el equipo</h2>
+            <ul id="detail-benefits"></ul>
+          </section>
+        </article>
+
+        <aside class="application-panel" aria-labelledby="application-title">
+          <p class="application-panel__eyebrow">Siguiente paso</p>
+          <h2 id="application-title">Postúlate a esta vacante</h2>
+          <p class="application-panel__copy">Comparte tus datos y un enlace a tu trabajo.</p>
+
+          <form id="application-form">
+            <input id="application-job" name="job" type="hidden" value="frontend">
+
+            <label for="applicant-name">
+              <span>Nombre completo</span>
+              <input id="applicant-name" name="name" type="text" autocomplete="name" required>
+            </label>
+
+            <label for="applicant-email">
+              <span>Correo electrónico</span>
+              <input id="applicant-email" name="email" type="email" autocomplete="email" required>
+            </label>
+
+            <label for="applicant-link">
+              <span>Portafolio o perfil profesional <small>Opcional</small></span>
+              <input id="applicant-link" name="link" type="url" placeholder="https://">
+            </label>
+
+            <label for="applicant-note">
+              <span>Mensaje <small>Opcional</small></span>
+              <textarea id="applicant-note" name="note" rows="4" placeholder="Cuéntale al equipo por qué te interesa el puesto."></textarea>
+            </label>
+
+            <button type="submit">Preparar postulación</button>
+            <p class="application-panel__notice">Demo: tus datos no se envían ni se guardan en un servidor.</p>
+            <p id="application-status" class="application-status" role="status" hidden></p>
+          </form>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__main">
+      <div class="site-footer__brand">
+        <a href="index.html#inicio">DevJobs</a>
+        <p>Conectamos talento tecnológico con oportunidades para crecer.</p>
+      </div>
+
+      <div class="site-footer__links">
+        <h2>Accesos rápidos</h2>
+        <nav aria-label="Accesos rápidos">
+          <a href="index.html#inicio">Inicio</a>
+          <a href="Empleos.html">Empleos</a>
+          <a href="Empresas.html">Empresas</a>
+          <a href="Salarios.html">Salarios</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <small>&copy; 2026 DevJobs. Todos los derechos reservados.</small>
+      <a href="#inicio">Volver al inicio</a>
+    </div>
+  </footer>
+
+  <script>
+    const jobListings = {
+      frontend: {
+        title: 'Frontend Developer', company: 'Estudio Nube', mark: 'N', markStyle: 'mint', location: 'México', mode: 'Remoto', type: 'Tiempo completo', salary: '$65k–$78k MXN / mes', posted: 'Publicada hace 1 día',
+        description: 'En Estudio Nube construimos herramientas digitales para que los equipos colaboren mejor. Buscamos a una persona que cuide tanto la calidad técnica como los detalles de experiencia en nuestras interfaces.',
+        responsibilities: ['Desarrollar interfaces web accesibles y responsive con React y TypeScript.', 'Colaborar con diseño y producto desde la exploración hasta el lanzamiento.', 'Mejorar rendimiento, pruebas y componentes compartidos.'],
+        requirements: ['Experiencia creando aplicaciones con React.', 'Manejo de TypeScript, HTML y CSS moderno.', 'Criterio de accesibilidad y comunicación clara en equipos distribuidos.'],
+        benefits: ['Trabajo remoto en México.', 'Horario flexible y presupuesto de aprendizaje.', 'Equipo de producto pequeño y colaborativo.']
+      },
+      backend: {
+        title: 'Backend Developer', company: 'Nómada Pay', mark: 'NP', markStyle: 'coral', location: 'Latinoamérica', mode: 'Remoto', type: 'Tiempo completo', salary: '$60k–$72k MXN / mes', posted: 'Publicada hace 2 días',
+        description: 'Nómada Pay simplifica los pagos para personas y negocios en Latinoamérica. Buscamos a alguien que ayude a evolucionar nuestros servicios y mantenga confiables las operaciones de la plataforma.',
+        responsibilities: ['Diseñar y mantener APIs para productos financieros.', 'Construir servicios observables y resilientes.', 'Trabajar con producto, seguridad y operaciones para lanzar mejoras.'],
+        requirements: ['Experiencia con Node.js y diseño de APIs.', 'Conocimiento de PostgreSQL y modelado de datos.', 'Buenas prácticas de pruebas, documentación y seguridad.'],
+        benefits: ['Trabajo remoto en Latinoamérica.', 'Presupuesto para formación profesional.', 'Horario flexible y días de descanso adicionales.']
+      },
+      devops: {
+        title: 'DevOps Engineer', company: 'Orbital Cloud', mark: 'O', markStyle: 'blue', location: 'México', mode: 'Remoto', type: 'Tiempo completo', salary: '$72k–$85k MXN / mes', posted: 'Publicada hace 2 días',
+        description: 'Orbital Cloud desarrolla infraestructura confiable para productos digitales en crecimiento. Ayudarás a mejorar la plataforma que permite a los equipos desplegar software con seguridad y confianza.',
+        responsibilities: ['Automatizar infraestructura y procesos de entrega.', 'Mejorar monitoreo, alertas y respuesta ante incidentes.', 'Colaborar con ingeniería en confiabilidad y costos de nube.'],
+        requirements: ['Experiencia con AWS y herramientas de infraestructura como código.', 'Conocimientos de contenedores y Kubernetes.', 'Experiencia con pipelines CI/CD y observabilidad.'],
+        benefits: ['Trabajo remoto en México.', 'Presupuesto para certificaciones cloud.', 'Equipo enfocado en automatización y aprendizaje.']
+      },
+      data: {
+        title: 'Data Analyst', company: 'Verde Labs', mark: 'V', markStyle: 'gold', location: 'Ciudad de México', mode: 'Híbrido', type: 'Tiempo completo', salary: '$45k–$56k MXN / mes', posted: 'Publicada hace 3 días',
+        description: 'Verde Labs usa datos y tecnología para hacer más sostenibles las decisiones cotidianas. En este puesto traducirás preguntas de producto y negocio en análisis claros y accionables.',
+        responsibilities: ['Definir y mantener métricas de producto y negocio.', 'Explorar datos y comunicar hallazgos a distintos equipos.', 'Crear consultas, tableros y reportes confiables.'],
+        requirements: ['Dominio de SQL y experiencia con Python.', 'Experiencia con herramientas de visualización.', 'Habilidad para explicar análisis de forma clara y práctica.'],
+        benefits: ['Esquema híbrido en Ciudad de México.', 'Participación en proyectos de impacto ambiental.', 'Apoyo para formación y conferencias.']
+      },
+      design: {
+        title: 'Product Designer', company: 'Lumen Studio', mark: 'L', markStyle: 'lilac', location: 'Guadalajara', mode: 'Híbrido', type: 'Tiempo completo', salary: '$42k–$52k MXN / mes', posted: 'Publicada hace 4 días',
+        description: 'Lumen Studio ayuda a equipos a convertir ideas complejas en productos digitales claros. Acompañarás el proceso completo, desde entender necesidades hasta validar soluciones con usuarios.',
+        responsibilities: ['Planear investigación y sintetizar necesidades de usuario.', 'Diseñar flujos, prototipos e interfaces en Figma.', 'Colaborar con ingeniería para llevar experiencias a producción.'],
+        requirements: ['Experiencia en diseño de producto digital.', 'Portafolio que muestre proceso y resultados.', 'Conocimientos de investigación, prototipado y sistemas de diseño.'],
+        benefits: ['Esquema híbrido en Guadalajara.', 'Tiempo para investigación y pruebas de usuario.', 'Colaboración directa con producto e ingeniería.']
+      },
+      web: {
+        title: 'Web Developer', company: 'Taller Web', mark: 'T', markStyle: 'mint', location: 'Monterrey', mode: 'Presencial', type: 'Contrato', salary: '$32k–$38k MXN / mes', posted: 'Publicada hace 5 días',
+        description: 'Taller Web desarrolla experiencias para marcas con grandes ideas. Buscamos apoyo por proyecto para construir sitios rápidos, responsive y con especial cuidado visual.',
+        responsibilities: ['Maquetar y mantener páginas web responsive.', 'Implementar componentes con HTML, CSS y JavaScript.', 'Revisar calidad visual y compatibilidad entre navegadores.'],
+        requirements: ['Manejo sólido de HTML, CSS y JavaScript.', 'Atención al detalle visual y a los distintos tamaños de pantalla.', 'Disponibilidad para colaborar presencialmente en Monterrey.'],
+        benefits: ['Contrato por proyecto con alcance definido.', 'Colaboración directa con diseño y clientes.', 'Equipo pequeño con procesos ágiles.']
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const jobId = params.get('id');
+    let customJob;
+    try {
+      customJob = JSON.parse(localStorage.getItem('devjobs-custom-jobs') || '[]').find((item) => item.id === jobId);
+    } catch {
+      customJob = undefined;
+    }
+    const formatList = (selector, items) => {
+      const list = document.querySelector(selector);
+      list.replaceChildren(...items.map((item) => {
+        const element = document.createElement('li');
+        element.textContent = item;
+        return element;
+      }));
+    };
+
+    const workModeLabels = { remote: 'Remoto', hybrid: 'Híbrido', onsite: 'Presencial' };
+    const employmentTypeLabels = { full_time: 'Tiempo completo', part_time: 'Medio tiempo', contract: 'Contrato' };
+    const formatSalary = (job) => {
+      if (job.salary_min === null || job.salary_max === null) return 'Salario a convenir';
+      const formatter = new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: job.salary_currency || 'MXN',
+        maximumFractionDigits: 0
+      });
+      return `${formatter.format(Number(job.salary_min))}–${formatter.format(Number(job.salary_max))} / mes`;
+    };
+
+    function showJob(job, isCustom = false) {
+      document.title = `${job.title} | DevJobs`;
+      document.querySelector('#breadcrumb-title').textContent = job.title;
+      document.querySelector('#detail-company').textContent = job.company;
+      document.querySelector('#detail-title').textContent = job.title;
+      document.querySelector('#detail-location').textContent = `${job.location} · ${job.mode} · ${job.type}`;
+      document.querySelector('#detail-salary').textContent = isCustom
+        ? (job.salary ? `${job.salary} MXN / mes` : 'Salario a convenir')
+        : job.salary;
+      document.querySelector('#detail-posted').textContent = job.posted;
+      document.querySelector('#detail-description').textContent = job.description;
+      document.querySelector('#detail-company-mark').textContent = job.mark;
+      document.querySelector('#detail-company-mark').className = `company-mark company-mark--${job.markStyle}`;
+      document.querySelector('#application-job').value = job.title;
+      formatList('#detail-responsibilities', job.responsibilities || []);
+      formatList('#detail-requirements', job.requirements || []);
+      formatList('#detail-benefits', job.benefits || []);
+    }
+
+    async function loadJob() {
+      const databaseId = jobId?.match(/^db-(\d+)$/)?.[1];
+      if (databaseId) {
+        try {
+          const response = await fetch(`/api/jobs/${databaseId}`);
+          const record = await response.json();
+          if (!response.ok) throw new Error(record.error || 'No encontramos esa vacante.');
+          const postedDate = record.published_at ? new Date(record.published_at).toLocaleDateString('es-MX') : '';
+          const job = {
+            id: `db-${record.id}`,
+            title: record.title,
+            company: record.company,
+            location: record.location,
+            mode: workModeLabels[record.work_mode] || record.work_mode,
+            type: employmentTypeLabels[record.employment_type] || record.employment_type,
+            salary: formatSalary(record),
+            posted: postedDate ? `Publicada el ${postedDate}` : 'Publicada recientemente',
+            description: record.description,
+            responsibilities: record.responsibilities,
+            requirements: record.requirements,
+            benefits: record.benefits,
+            mark: record.company.slice(0, 2).toLocaleUpperCase('es'),
+            markStyle: 'mint'
+          };
+          showJob(job);
+          return { job, databaseId };
+        } catch (error) {
+          document.title = 'Vacante no disponible | DevJobs';
+          document.querySelector('#detail-title').textContent = 'Vacante no disponible';
+          document.querySelector('#detail-description').textContent = error.message;
+          document.querySelector('#application-form').hidden = true;
+          return null;
+        }
+      }
+
+      const job = jobListings[jobId] || customJob || jobListings.frontend;
+      showJob(job, Boolean(customJob));
+      return { job, databaseId: null };
+    }
+
+    const loadedJobPromise = loadJob();
+    document.querySelector('#application-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const loadedJob = await loadedJobPromise;
+      if (!event.currentTarget.reportValidity() || !loadedJob) return;
+      const status = document.querySelector('#application-status');
+      const formData = new FormData(event.currentTarget);
+
+      if (!loadedJob.databaseId) {
+        status.textContent = `Tu postulación para ${loadedJob.job.title} está lista en esta demo. No se enviaron tus datos.`;
+        status.hidden = false;
+        return;
+      }
+
+      const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        const token = sessionStorage.getItem('devjobs-token');
+        if (token) headers.Authorization = `Bearer ${token}`;
+        const response = await fetch(`/api/jobs/${loadedJob.databaseId}/applications`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            portfolioUrl: formData.get('link'),
+            coverLetter: formData.get('note')
+          })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'No pudimos guardar la postulación.');
+        status.textContent = 'Tu postulación quedó guardada en DevJobs.';
+        status.hidden = false;
+        event.currentTarget.reset();
+      } catch (error) {
+        status.textContent = error.message || 'No pudimos conectar con el servidor.';
+        status.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+  <script src="site-header.js"></script>
+</body>
+
+</html>
