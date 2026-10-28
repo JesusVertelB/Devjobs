@@ -87,6 +87,13 @@
           publish.setAttribute('role', 'menuitem');
           publish.textContent = 'Publicar un empleo';
           menu.append(publish);
+        } else if (user.account_type === 'candidate') {
+          const profileLink = document.createElement('a');
+          profileLink.className = 'site-header__profile-action';
+          profileLink.href = 'Perfil.html';
+          profileLink.setAttribute('role', 'menuitem');
+          profileLink.textContent = 'Mi perfil';
+          menu.append(profileLink);
         }
 
         const separator = document.createElement('span');

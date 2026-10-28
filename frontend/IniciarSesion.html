@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="tailwind.css">
 </head>
 
-<body>
-  <header class="site-header" id="inicio">
+<body class="auth-layout">
+  <header class="site-header auth-site-header" id="inicio">
     <h2>DevJobs</h2>
     <nav aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
@@ -123,7 +123,7 @@
     </div>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer auth-site-footer">
     <div class="site-footer__main">
       <div class="site-footer__brand">
         <a href="index.html#inicio">DevJobs</a>
@@ -210,7 +210,9 @@
           && /^DetalleEmpleo\.html\?id=db-\d+$/.test(returnTo || '');
         const destination = applicationDestination
           ? returnTo
-          : result.user.account_type === 'employer' ? 'PublicarEmpleo.html' : 'Empleos.html';
+          : result.user.account_type === 'candidate'
+            ? 'Perfil.html'
+            : result.user.account_type === 'employer' ? 'PublicarEmpleo.html' : 'Empleos.html';
         const action = endpoint === 'register' ? 'Cuenta creada' : 'Sesión iniciada';
         authStatus.textContent = `${action} para ${result.user.full_name}. Te llevamos a DevJobs...`;
         authStatus.hidden = false;

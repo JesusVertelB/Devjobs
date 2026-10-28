@@ -13,6 +13,7 @@ Portal de empleo para explorar vacantes, consultar empresas y salarios, crear cu
 |   |-- Empresas.html
 |   |-- Salarios.html
 |   |-- IniciarSesion.html
+|   |-- Perfil.html                  # Perfil profesional de candidatos
 |   |-- PublicarEmpleo.html
 |   |-- site-header.js              # Comportamiento compartido del encabezado
 |   |-- style.css
@@ -29,7 +30,7 @@ Portal de empleo para explorar vacantes, consultar empresas y salarios, crear cu
 `-- README.md
 ```
 
-Express sirve el frontend desde `frontend/` y expone la API bajo `/api`. El backend usa MySQL para persistir cuentas, empresas, vacantes y postulaciones; `bcryptjs` protege las contraseñas y JSON Web Tokens gestionan la autenticación.
+Express sirve el frontend desde `frontend/` y expone la API bajo `/api`. El backend usa MySQL para persistir cuentas, perfiles de candidatos, empresas, vacantes y postulaciones; `bcryptjs` protege las contraseñas y JSON Web Tokens gestionan la autenticación.
 
 ## Requisitos
 
@@ -47,7 +48,7 @@ Express sirve el frontend desde `frontend/` y expone la API bajo `/api`. El back
    Copy-Item .env.example .env
    ```
 
-3. En MySQL Workbench, ejecuta [`backend/database/devjobs_mysql.sql`](backend/database/devjobs_mysql.sql) en tu instancia de MySQL 8.
+3. En MySQL Workbench, ejecuta [`backend/database/devjobs_mysql.sql`](backend/database/devjobs_mysql.sql) en tu instancia de MySQL 8. Si ya tenías DevJobs instalado, vuelve a ejecutar el script para crear la tabla del perfil de candidatos; las tablas existentes se conservan.
 4. Edita `.env` con la configuración de tu base de datos y genera un secreto para JWT:
 
    ```powershell
@@ -107,6 +108,9 @@ npm run build:css
 | `POST` | `/api/auth/register` | Registra una cuenta. |
 | `POST` | `/api/auth/login` | Inicia sesión y devuelve un token. |
 | `GET` | `/api/auth/me` | Devuelve la cuenta asociada al token. |
+| `GET` | `/api/profile` | Consulta el perfil profesional de la cuenta de candidato autenticada. |
+| `PUT` | `/api/profile` | Actualiza los datos, las habilidades y el CV del candidato autenticado. |
+| `GET` | `/api/profile/resume` | Descarga el CV del candidato autenticado. |
 | `GET` | `/api/jobs` | Lista y filtra vacantes publicadas; está disponible para visitantes sin iniciar sesión. |
 | `GET` | `/api/jobs/:id` | Consulta una vacante. |
 | `POST` | `/api/jobs` | Publica una vacante como empleador autenticado. |

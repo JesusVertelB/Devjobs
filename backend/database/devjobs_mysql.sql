@@ -18,6 +18,25 @@ CREATE TABLE IF NOT EXISTS users (
   KEY idx_users_account_type (account_type)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS candidate_profiles (
+  user_id BIGINT UNSIGNED NOT NULL,
+  location VARCHAR(160) NULL,
+  about TEXT NULL,
+  job_title VARCHAR(120) NULL,
+  company VARCHAR(160) NULL,
+  experience_years TINYINT UNSIGNED NULL,
+  skills JSON NOT NULL,
+  resume_name VARCHAR(180) NULL,
+  resume_type VARCHAR(100) NULL,
+  resume_data MEDIUMBLOB NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id),
+  CONSTRAINT fk_candidate_profiles_user
+    FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS companies (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   owner_user_id BIGINT UNSIGNED NULL,

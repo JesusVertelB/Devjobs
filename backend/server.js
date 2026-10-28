@@ -48,7 +48,7 @@ const categoryNames = {
 
 app.disable('x-powered-by');
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '8mb' }));
 
 function createToken(user) {
   return jwt.sign(
@@ -79,6 +79,13 @@ function requireAuth(req, res, next) {
 function requireEmployer(req, res, next) {
   if (req.user.accountType !== 'employer' && req.user.accountType !== 'admin') {
     return res.status(403).json({ error: 'Necesitas una cuenta de empresa para publicar vacantes.' });
+  }
+  next();
+}
+
+function requireCandidate(req, res, next) {
+  if (req.user.accountType !== 'candidate') {
+    return res.status(403).json({ error: 'Este perfil está disponible para cuentas de candidato.' });
   }
   next();
 }
@@ -277,6 +284,177 @@ app.get('/api/auth/me', requireAuth, async (req, res) => {
     );
     if (!rows[0]) return res.status(401).json({ error: 'La cuenta ya no está activa.' });
     res.json({ user: rows[0] });
+  } catch (error) {
+    sendApiError(res, error);
+  }
+});
+
+app.get('/api/profile', requireAuth, requireCandidate, async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      `SELECT u.full_name, u.email, cp.location, cp.about, cp.job_title, cp.company,
+              cp.experience_years, cp.skills, cp.resume_name
+       FROM users u
+       LEFT JOIN candidate_profiles cp ON cp.user_id = u.id
+       WHERE u.id = ? AND u.account_type = 'candidate' AND u.is_active = TRUE
+       LIMIT 1`,
+      [req.user.sub]
+    );
+    const profile = rows[0];
+    if (!profile) return res.status(401).json({ error: 'La cuenta de candidato ya no está activa.' });
+
+    let skills = profile.skills;
+    if (typeof skills === 'string') skills = JSON.parse(skills);
+    res.json({
+      profile: {
+        fullName: profile.full_name,
+        email: profile.email,
+        location: profile.location || '',
+        about: profile.about || '',
+        jobTitle: profile.job_title || '',
+        company: profile.company || '',
+        experienceYears: profile.experience_years ?? '',
+        skills: Array.isArray(skills) ? skills : ['JavaScript', 'React', 'Node.js', 'HTML', 'CSS'],
+        resumeName: profile.resume_name || ''
+      }
+    });
+  } catch (error) {
+    sendApiError(res, error);
+  }
+});
+
+app.put('/api/profile', requireAuth, requireCandidate, async (req, res) => {
+  const body = req.body;
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return res.status(400).json({ error: 'La información del perfil no es válida.' });
+  }
+  const { fullName, email, location, about, jobTitle, company, experienceYears, skills, resume, removeResume } = body;
+  const values = { fullName, email, location, about, jobTitle, company };
+  if (Object.values(values).some((value) => typeof value !== 'string')) {
+    return res.status(400).json({ error: 'Revisa la información del perfil e inténtalo de nuevo.' });
+  }
+
+  const profile = {
+    fullName: fullName.trim(),
+    email: email.trim().toLowerCase(),
+    location: location.trim(),
+    about: about.trim(),
+    jobTitle: jobTitle.trim(),
+    company: company.trim(),
+    experienceYears,
+    skills
+  };
+  if (profile.fullName.length < 2 || profile.fullName.length > 120) {
+    return res.status(400).json({ error: 'El nombre debe tener entre 2 y 120 caracteres.' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email) || profile.email.length > 254) {
+    return res.status(400).json({ error: 'Escribe un correo electrónico válido.' });
+  }
+  if (profile.location.length > 160 || profile.about.length > 2000
+    || profile.jobTitle.length > 120 || profile.company.length > 160) {
+    return res.status(400).json({ error: 'Uno de los campos supera la longitud permitida.' });
+  }
+  if (profile.experienceYears !== null
+    && (!Number.isInteger(profile.experienceYears) || profile.experienceYears < 0 || profile.experienceYears > 60)) {
+    return res.status(400).json({ error: 'Los años de experiencia deben estar entre 0 y 60.' });
+  }
+  if (!Array.isArray(profile.skills) || profile.skills.length > 20
+    || profile.skills.some((skill) => typeof skill !== 'string' || !skill.trim() || skill.trim().length > 40)) {
+    return res.status(400).json({ error: 'Añade hasta 20 habilidades de máximo 40 caracteres cada una.' });
+  }
+  profile.skills = [...new Map(profile.skills.map((skill) => [skill.trim().toLocaleLowerCase('es'), skill.trim()])).values()];
+  if (removeResume !== undefined && typeof removeResume !== 'boolean') {
+    return res.status(400).json({ error: 'La opción de eliminar el CV no es válida.' });
+  }
+
+  let resumeData;
+  if (resume !== undefined && resume !== null) {
+    if (typeof resume !== 'object' || typeof resume.name !== 'string'
+      || typeof resume.type !== 'string' || typeof resume.data !== 'string') {
+      return res.status(400).json({ error: 'El archivo del CV no es válido.' });
+    }
+    const extension = resume.name.toLowerCase().split('.').pop();
+    const supportedTypes = {
+      pdf: 'application/pdf',
+      doc: 'application/msword',
+      docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    };
+    const maxBase64Length = Math.ceil(5 * 1024 * 1024 / 3) * 4;
+    if (resume.name.length > 180 || !supportedTypes[extension] || resume.type !== supportedTypes[extension]
+      || resume.data.length > maxBase64Length || !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(resume.data)) {
+      return res.status(400).json({ error: 'Sube un CV PDF, DOC o DOCX de máximo 5 MB.' });
+    }
+    const buffer = Buffer.from(resume.data, 'base64');
+    if (buffer.length > 5 * 1024 * 1024 || buffer.toString('base64') !== resume.data) {
+      return res.status(400).json({ error: 'Sube un CV PDF, DOC o DOCX de máximo 5 MB.' });
+    }
+    resumeData = { name: resume.name, type: resume.type, data: buffer };
+  }
+
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+    await connection.execute(
+      'UPDATE users SET full_name = ?, email = ? WHERE id = ? AND account_type = ? AND is_active = TRUE',
+      [profile.fullName, profile.email, req.user.sub, 'candidate']
+    );
+    await connection.execute(
+      `INSERT INTO candidate_profiles (user_id, location, about, job_title, company, experience_years, skills)
+       VALUES (?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE location = VALUES(location), about = VALUES(about),
+         job_title = VALUES(job_title), company = VALUES(company),
+         experience_years = VALUES(experience_years), skills = VALUES(skills)`,
+      [req.user.sub, profile.location || null, profile.about || null, profile.jobTitle || null,
+        profile.company || null, profile.experienceYears, JSON.stringify(profile.skills)]
+    );
+    if (resumeData) {
+      await connection.execute(
+        'UPDATE candidate_profiles SET resume_name = ?, resume_type = ?, resume_data = ? WHERE user_id = ?',
+        [resumeData.name, resumeData.type, resumeData.data, req.user.sub]
+      );
+    } else if (removeResume) {
+      await connection.execute(
+        'UPDATE candidate_profiles SET resume_name = NULL, resume_type = NULL, resume_data = NULL WHERE user_id = ?',
+        [req.user.sub]
+      );
+    }
+    await connection.commit();
+    res.json({
+      profile: {
+        ...profile,
+        resumeName: resumeData ? resumeData.name : removeResume ? '' : undefined
+      }
+    });
+  } catch (error) {
+    if (connection) await connection.rollback().catch(() => {});
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ error: 'Ese correo ya está asociado a otra cuenta.' });
+    }
+    sendApiError(res, error);
+  } finally {
+    connection?.release();
+  }
+});
+
+app.get('/api/profile/resume', requireAuth, requireCandidate, async (req, res) => {
+  try {
+    const [rows] = await pool.execute(
+      'SELECT resume_name, resume_type, resume_data FROM candidate_profiles WHERE user_id = ? LIMIT 1',
+      [req.user.sub]
+    );
+    const resume = rows[0];
+    if (!resume?.resume_data) return res.status(404).json({ error: 'No hay un CV guardado en el perfil.' });
+    const encodedName = encodeURIComponent(resume.resume_name).replace(/['()*]/g, (character) => (
+      `%${character.charCodeAt(0).toString(16).toUpperCase()}`
+    ));
+    res.set({
+      'Content-Type': resume.resume_type,
+      'Content-Disposition': `attachment; filename="CV"; filename*=UTF-8''${encodedName}`,
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff'
+    });
+    res.send(resume.resume_data);
   } catch (error) {
     sendApiError(res, error);
   }

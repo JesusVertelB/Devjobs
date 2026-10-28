@@ -197,7 +197,9 @@ header > div a[hidden] {
   z-index: 50;
   top: calc(100% + 8px);
   right: 0;
+  display: block;
   width: 256px;
+  max-width: calc(100vw - 32px);
   padding: 8px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -226,6 +228,7 @@ header > div a[hidden] {
 .site-header__profile-role {
   color: var(--text-muted);
   font-size: 0.75rem;
+  overflow-wrap: anywhere;
 }
 
 .site-header__profile-role {
@@ -511,18 +514,18 @@ article {
 
 :root {
   color-scheme: dark;
-  --primary: #bd5638;
-  --primary-dark: #f0a082;
-  --primary-hover: #a84930;
-  --primary-light: #f0a082;
-  --background: #101714;
-  --text-primary: #f1f3ed;
-  --text-secondary: #c5cec7;
-  --text-muted: #9ca9a0;
-  --border: #303b34;
-  --card-bg: #1b2420;
+  --primary: #1173d4;
+  --primary-dark: #3b9eff;
+  --primary-hover: #0d5ba8;
+  --primary-light: #3b9eff;
+  --background: #101820;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #273545;
+  --card-bg: #1e293b;
   --shadow: rgba(0, 0, 0, 0.3);
-  --input-bg: #202a24;
+  --input-bg: #1e293b;
 }
 
 html {
@@ -542,7 +545,7 @@ body>header {
   z-index: 2;
   min-height: 76px;
   padding: 12px clamp(20px, 6vw, 88px);
-  background: #151e19;
+  background: #111a23;
   border-bottom: 1px solid var(--border);
 }
 
@@ -591,7 +594,7 @@ body>header div a {
 
 body>header div a:first-child {
   border-color: var(--border);
-  background: #202a24;
+  background: #1e293b;
 }
 
 body>header div a:last-child {
@@ -611,8 +614,8 @@ main>section:first-child {
   min-height: 540px;
   overflow: hidden;
   padding: 96px 24px 88px;
-  background: #173b34;
-  color: #fffefa;
+  background: #101820;
+  color: #f8fafc;
   text-align: center;
 }
 
@@ -620,7 +623,7 @@ main>section:first-child::before {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(90deg, rgba(13, 39, 34, 0.9), rgba(17, 47, 41, 0.62) 52%, rgba(19, 43, 37, 0.48));
+  background: linear-gradient(90deg, rgba(10, 20, 32, 0.9), rgba(13, 27, 43, 0.72) 52%, rgba(13, 25, 39, 0.62));
   content: '';
 }
 
@@ -652,7 +655,7 @@ main>section:first-child h1 {
 main>section:first-child>p {
   max-width: 610px;
   margin: 20px auto 0;
-  color: rgba(255, 254, 250, 0.82);
+  color: rgba(241, 245, 249, 0.82);
   font-size: 1.08rem;
   text-wrap: balance;
   animation: rise-in 720ms 80ms both;
@@ -667,10 +670,10 @@ main>section:first-child form {
   max-width: 700px;
   margin: 32px auto 0;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.48);
+  border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 8px;
-  background: #1b2520;
-  box-shadow: 0 16px 40px rgba(8, 24, 21, 0.22);
+  background: #1e293b;
+  box-shadow: 0 16px 40px rgba(8, 16, 28, 0.35);
   animation: rise-in 780ms 150ms both;
 }
 
@@ -679,7 +682,7 @@ main>section:first-child form>svg {
   width: 22px;
   height: 22px;
   margin-left: 12px;
-  color: #a5b0a8;
+  color: #94a3b8;
 }
 
 main>section:first-child form input[type='text'] {
@@ -695,11 +698,11 @@ main>section:first-child form input[type='text'] {
 }
 
 main>section:first-child form input[type='text']::placeholder {
-  color: #a5b0a8;
+  color: #94a3b8;
 }
 
 main>section:first-child form:focus-within {
-  outline: 3px solid rgba(229, 138, 98, 0.56);
+  outline: 3px solid rgba(59, 158, 255, 0.56);
   outline-offset: 3px;
 }
 
@@ -760,7 +763,7 @@ main>section:nth-child(2) article {
   min-height: 220px;
   margin: 0;
   padding: 26px;
-  border: 1px solid #303b34;
+  border: 1px solid #273545;
   border-radius: 7px;
   background: var(--card-bg);
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
@@ -781,18 +784,8 @@ main>section:nth-child(2) article svg {
   margin-bottom: 18px;
   padding: 12px;
   border-radius: 7px;
-  background: #263e32;
-  color: #a5d2b3;
-}
-
-main>section:nth-child(2) article:nth-child(2) svg {
-  background: #432d26;
-  color: #f0a082;
-}
-
-main>section:nth-child(2) article:nth-child(3) svg {
-  background: #403a24;
-  color: #e7d28d;
+  background: #17375e;
+  color: #3b9eff;
 }
 
 main>section:nth-child(2) article h3 {
@@ -812,7 +805,7 @@ main>section:nth-child(2) article p {
 body>footer {
   padding: 22px 16px;
   border-top: 1px solid var(--border);
-  background: #151e19;
+  background: #111a23;
   text-align: center;
 }
 
@@ -947,7 +940,7 @@ body>footer small {
 .site-footer {
   padding: 44px clamp(20px, 7vw, 104px) 20px;
   border-top: 1px solid var(--border);
-  background: #151e19;
+  background: #111a23;
   text-align: left;
 }
 
